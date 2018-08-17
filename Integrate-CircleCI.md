@@ -5,16 +5,16 @@ This guide will demonstrate how to configure CircleCI and run your test script w
 ## Table of contents
 [Prerequisites](#prerequisites)
 
-[1. Configure GitHub repository to be used with CircleCI](#1.-configure-github-repository-to-be-used-with-circleci)
+[1. Configuring GitHub repository to be used with CircleCI](#1.-configuring-github-repository-to-be-used-with-circleci)
 
-[2. Integrate CircleCI with configured GitHub repository](#2.-integrate-circleci-with-configured-github-repository)
+[2. Integrating CircleCI with configured GitHub repository](#2.-integrating-circleci-with-configured-github-repository)
 
 ## Prerequisites
 - An active CircleCI subscription.
     > - If you don't have an account, please go to [here](https://circleci.com/signup/) and follow their instructions to create an account.
     > - If you have an account but have used all remaining minutes, please go to [here](https://circleci.com/gh/organizations/blackheat/settings#containers) and follow their instructions to purchase more usage time.
 
-## 1. Configure GitHub repository to be used with CircleCI
+## 1. Configuring GitHub repository to be used with CircleCI
 > If your repository has been configured to be used with CircleCI or you have known how to do it, skip this step.
 
 1. In the repository's root directory, create a folder named `.circleci`
@@ -33,7 +33,7 @@ jobs:
           command: 'echo Hello'
 ```
 
-## 2. Integrate CircleCI with configured GitHub repository
+## 2. Integrating CircleCI with configured GitHub repository
 This part will demonstrate how to integrate and synchronize CircleCI with a GitHub repository. If you have already known how to do it, skip this step.
 
 Go to [CircleCI portal](https://circleci.com/dashboard)
