@@ -171,15 +171,21 @@ const desiredCaps = {
 
 2. Replace `desiredCaps` value with the desired capabilities value taken above
 
-3. In this example, we will be using `Xperia XZ Premium` running `Android 7.1.1`, therefore, the result should be
+3. In this example, we will be testing Appium's demo [APK](https://appium.github.io/appium/assets/ApiDemos-debug.apk) using `Xperia XZ Premium` running `Android 7.1.1`, therefore, the result should be
 
 ```
 var desiredCaps = {
   sessionName:        'Automation test session',
   sessionDescription: '', 
   deviceOrientation:  'portrait',  
-  captureScreenshots: true,  
-  browserName:        'chrome', 
+  captureScreenshots: true, 
+  // The maximum size of application is 500MB
+  // By default, HTTP requests from testing library are expired
+  // in 2 minutes while the app copying and installation may
+  // take up-to 30 minutes. Therefore, you need to extend the HTTP
+  // request timeout duration in your testing library so that
+  // it doesn't interrupt while the device is being initialized.
+  app:                'https://appium.github.io/appium/assets/ApiDemos-debug.apk', 
   deviceGroup:        'KOBITON', 
   // For deviceName, platformVersion Kobiton supports wildcard
   // character *, with 3 formats: *text, text* and *text*
@@ -189,6 +195,8 @@ var desiredCaps = {
   platformName:       'Android' 
 }
 ```
+
+4. 
 
 ### 4. Configuring CircleCI
 1. Choosing docker image(s)
