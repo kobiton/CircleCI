@@ -273,18 +273,23 @@ Go to [CircleCI dashboard](https://circleci.com/dashboard)
 You will see status of the test
 
 Executing
+
 ![alt text](./assets/test-executing.png)
 
 If your test is success, it will look like
+
 ![alt text](./assets/test-success.png)
 
 Otherwise
+
 ![alt text](./assets/test-failed.png)
 
 Click on the title of the test to see it's details
+
 ![alt text](./assets/test-title.png)
 
 Test details should look like this
+
 ![alt text](./assets/test-details.png)
 
 ### 6. Viewing Kobiton test session information
