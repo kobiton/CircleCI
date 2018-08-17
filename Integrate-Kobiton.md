@@ -200,7 +200,7 @@ var desiredCaps = {
 
     Because application building and execution processes are done in isolated container(s) (CircleCI uses Docker as container management), therefore we will have to choose a preconfigured docker image, or use the base image and configure it to match your application's requirements.
 
-    Head to [CircleCI Docker Images](https://circleci.com/docs/2.0/circleci-images/#latest-image-tags-by-language) and choose one or many images that suite your application's requirements.
+    Head to [CircleCI Docker Images](https://circleci.com/docs/2.0/circleci-images/#latest-image-tags-by-language) and choose one or more images that suite your application's requirements.
 
     In this guide, we will be using latest version of NodeJS, therefore, we will use CircleCI's official latest NodeJS image **circleci/node:latest**
 
