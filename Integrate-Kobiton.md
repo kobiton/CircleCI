@@ -202,8 +202,6 @@ var desiredCaps = {
 }
 ```
 
-4. 
-
 ### 4. Configuring CircleCI
 1. Choosing docker image(s)
 
