@@ -94,11 +94,13 @@ In this example, we will be running tests on `Pixel 2 XL`, therefore, hovering o
 ![alt text](./assets/desired-caps.png)
 
 In this example, we will be testing a demo Android application provided by Appium (link [here](https://appium.github.io/appium/assets/ApiDemos-debug.apk)), therefore, in the `Automation Settings for Pixel 2 XL`, change the following options to match :
+
 `Language` : `NodeJS`
 
 `App type` : `Hybrid/Native from URL`
 
 `Application URL` : `https://appium.github.io/appium/assets/ApiDemos-debug.apk`
+
 as shown in pictures below
 
 ![alt text](./assets/desired-cap-setting-example-1.png)
@@ -264,7 +266,7 @@ var desiredCaps = {
 
 3. Executing the automated test script
 
-    As we have configured the `config.yml` file to execute our test script, simply push changes to your repository and CircleCI will execute the script.
+    As we have configured the `config.yml` file to execute our test script, simply push all changes to your repository and CircleCI will execute the script.
 
 ### 5. Viewing execution result in CircleCI
 
