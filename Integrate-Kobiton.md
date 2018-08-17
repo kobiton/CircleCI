@@ -27,18 +27,9 @@ This guide will demonstrate how to configure CircleCI and run your test script w
 
 In this guideline, we will be using the sample test script provided by Kobiton.
 - Clone [this](https://github.com/kobiton/samples.git) repository into a folder and navigate into it.
-- As the sample script is provided in many languages, therefore they are placed in separate folders with name matching the corresponding programming language's name. Choose your favorite programming language by navigating into the corresponding folder. In this guide, we will be using the one written in NodeJS, so navigate into `javascript` folder.
-- Push all of the contents in that folder into your repository.
-<!--
-- You will see five test scripts in this folder :
-
-    + `android-app-test.js` : Sample Android application testing script.
-    + `android-web-test.js` : Sample Android web testing script.
-    + `ios-app-test.js` : Sample iOS application testing script.
-    + `ios-web-test.js` : Sample iOS web testing script.
-    + `multi-devices-test.js` : Sample multiple devices testing script.
--->
-- Choose one of the testing script. In this guide, we will be using the sample Android application testing script `android-app-test.js`.
+- The test samples are provided in many languages. In this example, we will be using the one written in NodeJS, therfore, navigate into `NodeJS` folder.
+- You will see many testing scripts. In this guide, we will be using the sample Android application testing script `android-app-test.js`.
+- Put `android-app-test.js` and `package.json` in your repository.
 
 ### 2. Getting required parameters
 In order to execute test(s) on Kobiton, three parameters must be provided : 
@@ -193,14 +184,14 @@ var desiredCaps = {
   // take up-to 30 minutes. Therefore, you need to extend the HTTP
   // request timeout duration in your testing library so that
   // it doesn't interrupt while the device is being initialized.
-  app:                'https://appium.github.io/appium/assets/ApiDemos-debug.apk', 
+  app:                'YOUR_APP_URL', 
   deviceGroup:        'KOBITON', 
   // For deviceName, platformVersion Kobiton supports wildcard
   // character *, with 3 formats: *text, text* and *text*
   // If there is no *, Kobiton will match the exact text provided
-  deviceName:         'Pixel 2 XL',
-  platformVersion:    '8.1.0',
-  platformName:       'Android' 
+  deviceName:         'DEVICE_NAME',
+  platformVersion:    'PLATFORM_VERSION',
+  platformName:       'PLATFORM_NAME' 
 }
 ```
 
@@ -211,7 +202,7 @@ var desiredCaps = {
 
     Head to [CircleCI Docker Images](https://circleci.com/docs/2.0/circleci-images/#latest-image-tags-by-language) and choose one or many images that suite your application's requirements.
 
-    In this guide, we will be using latest version of NodeJS, therefore, we will use CircleCI's official NodeJS image **circleci/node:latest**
+    In this guide, we will be using latest version of NodeJS, therefore, we will use CircleCI's official latest NodeJS image **circleci/node:latest**
 
     Replace `docker` section with the selected image
     ```
