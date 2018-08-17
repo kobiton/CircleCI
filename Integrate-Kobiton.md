@@ -113,8 +113,8 @@ as shown in pictures below
 
 ### 3. Setting parameters and desired capabilities
 There are two ways to set your username and API key, you can choose either one of them :
-+ Setting them as global variables.
-+ Setting them in the script.
++ Set as global variables.
++ Set in the script.
 
 **Setting Username and API key as global variables**
 
