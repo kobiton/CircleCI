@@ -82,13 +82,23 @@ In this part, we will be guiding on how to get these elements.
 **Follow these steps to get the desired capabilities**
 
 1. Go to [Kobiton Devices page](https://portal.kobiton.com/devices)
-2. Hover over the device you want to run your test script on, click on the gear button, as shown in the example
+2. At the top left of the page, you will see the device status filter (`online`, `busy`, `offline`)
+
+![alt text](./assets/device-filter.png)
+
+3. Tick `Online` and untick the two remaining options in order to display only online devices
+
+![alt text](./assets/device-filter-only-online.png)
+
+4. Hover over the device you want to run your test script on, click on the gear button, as shown in the example
 
 ![alt text](./assets/gear-button.png)
 
 In this example, we will be running tests on `Pixel 2 XL`, therefore, hovering over it and click on the gear button.
 
-3. In the popup window, choose the language that your script will be written in (marked **red**), change the value of `Session name`, `Description`, `App Type`, etc. The desired capabilities code will be generated and displayed in the right pane of the popup (marked **blue**).
+![alt text](./assets/pixel-2-xl-gear.png)
+
+5. In the popup window, choose the language that your script will be written in (marked **red**), change the value of `Session name`, `Description`, `App Type`, etc. The desired capabilities code will be generated and displayed in the right pane of the popup (marked **blue**).
 
 ![alt text](./assets/desired-caps.png)
 
