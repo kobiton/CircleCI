@@ -18,7 +18,7 @@ This guide will demonstrate how to configure CircleCI and run your test script w
 > If your repository has been configured to be used with CircleCI or you have known how to do it, skip this step.
 
 1. In the repository's root directory, create a folder named `.circleci`
-2. Create a configuration file named `config.yml` inside the `.circleci` folder with the content below
+2. Inside the `.circleci` folder, create a file named `config.yml` with the content below
 ```
 version: 2
 jobs:
