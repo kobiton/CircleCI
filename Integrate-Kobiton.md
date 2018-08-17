@@ -288,7 +288,7 @@ Test details should look like this
 
 ### 6. Viewing Kobiton test session information
 
-**On website**
+**On Kobiton website**
 
 Your session details can be viewed on Kobiton's session page. Follow [this] tutorial on how to view your session information and commands on Kobiton's web page.
 
