@@ -84,9 +84,20 @@ In this part, we will be guiding on how to get these elements.
 
 ![alt text](./assets/gear-button.png)
 
+In this example, we will be running tests on `Pixel 2 XL`, therefore, hovering over it and click on the gear button.
+
 3. In the popup window, choose the language that your script will be written in (marked **red**), change the value of `Session name`, `Description`, `App Type`, etc. The desired capabilities code will be generated and displayed in the right pane of the popup (marked **blue**).
 
 ![alt text](./assets/desired-caps.png)
+
+In this example, we will be testing a demo apk provided by Appium (link [here](https://appium.github.io/appium/assets/ApiDemos-debug.apk)), therefore, in the `Automation Settings for Pixel 2 XL`, change the following options to match :
+`Language` : `NodeJS`
+`App type` : `Hybrid/Native from URL`
+`Application URL` : `https://appium.github.io/appium/assets/ApiDemos-debug.apk`
+as shown in pictures below
+
+![alt text](./assets/desired-cap-setting-example-1.png)
+![alt text](./assets/desired-cap-setting-example-2.png)
 
 ### 3. Setting parameters and desired capabilities
 There are two ways to set your username and API key, you can choose either one of them :
@@ -152,26 +163,9 @@ const apiKey = YOUR_KOBITON_API_KEY
 
 **Setting Desired Capabilities**
 
-1. Open `android-app-test.js` script, notice the following lines
+1. Open `android-app-test.js`
 
-```
-const desiredCaps = {
-  sessionName:        'Automation test session',
-  sessionDescription: 'This is an example for Android app',
-  deviceOrientation:  'portrait',
-  captureScreenshots: true,
-  deviceGroup:        'KOBITON',
-  deviceName:         deviceName,
-  platformName:       deviceOS,
-  app: 'https://appium.github.io/appium/assets/ApiDemos-debug.apk',
-  appPackage: 'io.appium.android.apis',
-  appActivity: '.ApiDemos'
-}
-```
-
-2. Replace `desiredCaps` value with the desired capabilities value taken above
-
-3. In this example, we will be testing Appium's demo [APK](https://appium.github.io/appium/assets/ApiDemos-debug.apk) using `Xperia XZ Premium` running `Android 7.1.1`, therefore, the result should be
+2. Replace `desiredCaps` value with the one taken above
 
 ```
 var desiredCaps = {
@@ -190,8 +184,8 @@ var desiredCaps = {
   // For deviceName, platformVersion Kobiton supports wildcard
   // character *, with 3 formats: *text, text* and *text*
   // If there is no *, Kobiton will match the exact text provided
-  deviceName:         'Xperia XZ Premium',
-  platformVersion:    '7.1.1',
+  deviceName:         'Pixel 2 XL',
+  platformVersion:    '8.1.0',
   platformName:       'Android' 
 }
 ```
