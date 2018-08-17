@@ -42,11 +42,11 @@ Click `Add Projects` button in the left panel of the page.
 
 ![alt text](./assets/add-projects-button.png)
 
-In the `Add Projects` window, you will see two operating systems options, `Linux` (the one marked red) and `macOS` (the one marked blue) as shown below.
+In the `Add Projects` window, you will see two operating systems options, `Linux` (marked **red**) and `macOS` (marked **blue**) as shown below.
 
 ![alt text](./assets/os-options.png)
 
-Choose the OS that your project is compatible with. In this example, we will be using `Linux` as the example project is compatible with Linux.
+Choose the OS that your project is compatible with. In this example, we will be using `Linux`.
 
 If your project is a forked project, tick `Show Forks` to show all forked projects.
 
