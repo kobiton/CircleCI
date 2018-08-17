@@ -276,7 +276,7 @@ Executing
 
 ![alt text](./assets/test-executing.png)
 
-If your test is success, it will look like
+If your test has been successfully executed without any error, it will look like
 
 ![alt text](./assets/test-success.png)
 
