@@ -92,7 +92,7 @@ In this example, we will be running tests on `Pixel 2 XL`, therefore, hovering o
 
 ![alt text](./assets/desired-caps.png)
 
-In this example, we will be testing a demo apk provided by Appium (link [here](https://appium.github.io/appium/assets/ApiDemos-debug.apk)), therefore, in the `Automation Settings for Pixel 2 XL`, change the following options to match :
+In this example, we will be testing a demo Android application provided by Appium (link [here](https://appium.github.io/appium/assets/ApiDemos-debug.apk)), therefore, in the `Automation Settings for Pixel 2 XL`, change the following options to match :
 `Language` : `NodeJS`
 `App type` : `Hybrid/Native from URL`
 `Application URL` : `https://appium.github.io/appium/assets/ApiDemos-debug.apk`
