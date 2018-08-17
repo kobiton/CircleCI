@@ -123,11 +123,11 @@ There are two ways to set your username and API key, you can choose either one o
 
 ![alt text](./assets/settings-button-left-panel.png)
 
-3. In `Settings` window, under the `Organization` section, click `Projects`
+3. In `Settings` window, under `Organization` section, click `Projects`
 
 ![alt text](./assets/projects-button.png)
 
-4. In `Followed projects` section, click the `gear` icon in the project you want to configure.
+4. In `Followed projects` section, click the gear icon in the project you want to configure.
 
 ![alt text](./assets/configure-project-icon.png)
 
@@ -135,7 +135,7 @@ There are two ways to set your username and API key, you can choose either one o
 
 ![alt text](./assets/env-variables-button.png)
 
-6. In `Environment Variables` window, click `Add Variable` button
+6. In `Environment Variables` window, click `Add Variable`
 
 ![alt text](./assets/add-variable-button.png)
 
