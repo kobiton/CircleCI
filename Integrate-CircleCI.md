@@ -13,6 +13,7 @@ This guide will demonstrate how to configure CircleCI and run your test script w
 - An active CircleCI subscription.
     > - If you don't have an account, please go to [here](https://circleci.com/signup/) and follow their instructions to create an account.
     > - If you have an account but have used all remaining minutes, please go to [here](https://circleci.com/gh/organizations/blackheat/settings#containers) and follow their instructions to purchase more usage time.
+- A blank GitHub repository (optional, but recommended)
 
 ## 1. Configuring GitHub repository to be used with CircleCI
 > If your repository has been configured to be used with CircleCI or you have known how to do it, skip this step.
