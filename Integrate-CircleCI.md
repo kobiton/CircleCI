@@ -68,6 +68,6 @@ In `Next Steps` section, click `Start Building`
 
 ![alt text](./assets/start-building-button.png)
 
-The setup process will be taking place in a few moments and your repository will be ready to use with CircleCI.
+The setup process will take place in a few moments and your repository will be ready to use with CircleCI.
 
 In the [next](./Integrate-Kobiton.md) part, we will be guiding on how to configure and run your automated test script(s) on CircleCI with Kobiton.
