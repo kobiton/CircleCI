@@ -19,8 +19,8 @@ This guide will demonstrate how to configure CircleCI and run your test script w
 
 ## Prerequisites
 - An active Kobiton subscription.
-- A repository configured to be used with CircleCI
-    > - If you haven't had one, refer to the [previous](./Integrate-CircleCI.md) part on how to configure a repository to be used with CircleCI.
+- A configured repository to be used with CircleCI
+    > - If you don't have one, refer to the [previous](./Integrate-CircleCI.md) part on how to configure a repository to be used with CircleCI.
 
 ### 1. Writing automation test script(s)
 > You can visit [our blog](https://kobiton.com/blog/automation-web-appium-kobiton-nodejs/) for details on how to set up an automation test script.
