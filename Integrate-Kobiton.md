@@ -40,35 +40,8 @@ In order to execute test(s) on Kobiton, three parameters must be provided :
 
 In this part, we will be guiding on how to get these elements.
 
-**Follow these steps to get your username**
-
-1. Go to [Kobiton Portal page](https://portal.kobiton.com)
-2. In the upper right corner of the page, click on your name.
-
-![alt text](./assets/user-full-name.png)
-
-3. In the dropdown menu, click `Profile`
-
-![alt text](./assets/profile-button.png)
-
-4. Your should see your username, as the following example
-
-![alt text](./assets/username.png)
-
-**Follow these steps to get your API Key**
-
-1. Go to [Kobiton Portal page](https://portal.kobiton.com)
-2. In the upper right corner of the page, click on your name.
-
-![alt text](./assets/user-full-name.png)
-
-3. In the drop down menu, click `Settings`
-
-![alt text](./assets/settings-button.png)
-
-4. Your should see your API key, as the following example
-
-![alt text](./assets/api-key.png)
+**Getting Username and API Key**
+> Please visit our [blog](https://kobiton.com/blog/tutorial/parallel-testing-selenium-webdriver/) and navigate to `IV. Configure Test Scripts for Kobiton` for more details on getting Username and API key.
 
 **Follow these steps to get the desired capabilities**
 
