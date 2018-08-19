@@ -43,7 +43,7 @@ In this part, we will be guiding on how to get these elements.
 **Getting Username and API Key**
 > Please visit our [blog](https://kobiton.com/blog/tutorial/parallel-testing-selenium-webdriver/) and navigate to `IV. Configure Test Scripts for Kobiton` for more details on getting Username and API key.
 
-**Follow these steps to get the desired capabilities**
+**Getting desired capabilities and Kobiton server web driver configuration**
 
 1. Go to [Kobiton Devices page](https://portal.kobiton.com/devices)
 2. At the top left of the page, you will see the device status filter (`online`, `busy`, `offline`)
@@ -58,15 +58,17 @@ In this part, we will be guiding on how to get these elements.
 
 ![alt text](./assets/gear-button.png)
 
-In this example, we will be running tests on `Pixel 2 XL`, therefore, hovering over it and click on the gear button.
-
-![alt text](./assets/pixel-2-xl-gear.png)
-
-5. In the popup window, choose the language that your script will be written in (marked **red**), change the value of `Session name`, `Description`, `App Type`, etc. The desired capabilities code will be generated and displayed in the right pane of the popup (marked **blue**).
+5. In the popup window, choose the language that your script will be written in (marked **red**), change the value of `Session name`, `Description`, `App Type`, etc. The desired capabilities and Kobiton server web driver configuration code will be generated and displayed in the right pane of the popup (marked **blue**).
 
 ![alt text](./assets/desired-caps.png)
 
-In this example, we will be testing a demo Android application provided by Appium (link [here](https://appium.github.io/appium/assets/ApiDemos-debug.apk)), therefore, in the `Automation Settings for Pixel 2 XL`, change the following options to match :
+In this example, we will be testing a demo Android application provided by Appium (link [here](https://appium.github.io/appium/assets/ApiDemos-debug.apk)) on a Pixel 2 XL, therefore, follow these steps below
+
+1. Hover over the `Pixel 2 XL` and click on the gear button.
+
+![alt text](./assets/pixel-2-xl-gear.png)
+
+2. In the `Automation Settings for Pixel 2 XL` popup, change the following options to match :
 
 `Language` : `NodeJS`
 
@@ -78,6 +80,8 @@ as shown in pictures below
 
 ![alt text](./assets/desired-cap-setting-example-1.png)
 ![alt text](./assets/desired-cap-setting-example-2.png)
+
+3. Write down the generated code as we will be using it later.
 
 ### 3. Setting parameters and desired capabilities
 There are two ways to set your username and API key, you can choose either one of them :
@@ -141,11 +145,21 @@ const username = YOUR_KOBITON_NAME
 const apiKey = YOUR_KOBITON_API_KEY
 ```
 
-**Setting Desired Capabilities**
+**Setting Desired Capabilities and Kobiton server web driver configuration**
 
 1. Open `android-app-test.js`
 
-2. Replace `desiredCaps` value with the one taken above
+2. Replace `webdriverKobitonServerConfig` value with the one taken above
+
+```
+var webdriverKobitonServerConfig = {
+  protocol: 'https',
+  host: 'api.kobiton.com',
+  auth: 'YOUR_KOBITON_USERNAME:YOUR_KOBITON_API_KEY'
+}
+```
+
+3. Replace `desiredCaps` value with the one taken above
 
 ```
 var desiredCaps = {
@@ -180,6 +194,7 @@ var desiredCaps = {
     In this guide, we will be using latest version of NodeJS, therefore, we will use CircleCI's official latest NodeJS image **circleci/node:latest**
 
     Replace `docker` section with the selected image
+    
     ```
     docker:
       - image: circleci/node:latest
