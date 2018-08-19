@@ -13,10 +13,10 @@ This guide will demonstrate how to configure CircleCI and run your test script w
 - An active CircleCI subscription.
     > - If you don't have an account, please go to [here](https://circleci.com/signup/) and follow their instructions to create an account.
     > - If you have an account but have used all remaining minutes, please go to [here](https://circleci.com/gh/organizations/blackheat/settings#containers) and follow their instructions to purchase more usage time.
-- A blank GitHub repository (optional, but recommended)
+- A blank GitHub repository.
 
 ## 1. Configuring GitHub repository to be used with CircleCI
-> If your repository has been configured to be used with CircleCI or you have known how to do it, skip this step.
+> If you have a blank, configured repository to be used with CircleCI or you have known how to do it, skip this step.
 
 1. In the repository's root directory, create a folder named `.circleci`
 2. Inside the `.circleci` folder, create a file named `config.yml` with the content below
