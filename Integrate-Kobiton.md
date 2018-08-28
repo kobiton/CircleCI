@@ -10,27 +10,25 @@
 
 - [4. Configuring CircleCI with Kobiton](#4-configuring-circleci-with-kobiton)
 
-- [5. Executing the automated test script](#5-executing-the-automated-test-script)
+- [5. Executing the automation test](#5-executing-the-automation-test)
 
-- [6. Viewing Kobiton test session information](#6-viewing-kobiton-test-session-information)
+- [6. Fetch test session data using REST API](#6-fetch-test-session-data-using-rest-api)
 
 ## Prerequisites
 - A Kobiton account.
     > If your don't have one, go to [https://portal.kobiton.com/register](https://portal.kobiton.com/register) to create an account.
-- A GitHub account.
+- A GitHub account that will be used to login to CircleCI
     > If you don't have one, go to [https://github.com/join](https://github.com/join) to create an account.
-- A GitHub repository to be used for automation testing with CircleCI.
+- A GitHub repository to be used for storing automation testing script(s). CircleCI will execute that script(s), which will execute the test on Kobiton devices.
 
 ## 1. Configuring GitHub repository to be used with CircleCI
-This part will guide you how to configure and synchronize your repository with CircleCI.
-
 Let's assume that you have already had an empty GitHub repository for running automation test.
 
-In order to integrate CircleCI to a GitHub project, your repository must contain `config.yml` file in `/.circleci/`. CircleCI will address the `config.yml` file to trigger the build process every time the code changed.
+In order to integrate CircleCI to a GitHub project, your repository must have contain `.circleci` folder in the root directory with `config.yml` file inside. CircleCI will address the `config.yml` file to trigger the build process every time the code changed.
 
 If your repository don't have `config.yml` file, refer to [this guide](https://circleci.com/docs/2.0/getting-started/#adding-a-yml-file) to create a basic `config.yml` file.
 
-You can skip this part if you have already had your repository integrated with CircleCI.
+This part will guide you how to configure and synchronize your repository with CircleCI. You can skip this part if you have already had your repository integrated with CircleCI.
 
 > For instruction on how to setup and synchronize a GitHub repository with CircleCI, go to [https://circleci.com/docs/2.0/getting-started/#setting-up-your-build-on-circleci](https://circleci.com/docs/2.0/getting-started/#setting-up-your-build-on-circleci) for reference.
 
@@ -59,7 +57,7 @@ To get your API key, follow these steps:
 
 ### 2.2 Getting desired capabilities and Kobiton server web driver configuration
 
-1. Go to [here](https://portal.kobiton.com/login) and login with your Kobiton account
+1. Go to [https://portal.kobiton.com/login](https://portal.kobiton.com/login) and login with your Kobiton account
 2. Click **"Devices"** at the top of the window
 
 ![Devices button](./assets/devices-button.png)
@@ -77,11 +75,13 @@ To get your API key, follow these steps:
 ## 3. Configuring automation test script
 > You can visit [our blog](https://kobiton.com/blog/automation-web-appium-kobiton-nodejs/) for details on how to set up an automation test script.
 
-Kobiton has already provided sample test scripts written in many languages, visit [https://github.com/kobiton/samples](https://github.com/kobiton/samples) for reference. In this example, we will be using the ones written in NodeJS, therefore, navigate to `javascript` folder.
+Kobiton has already provided sample test scripts written in many languages, visit [https://github.com/kobiton/samples](https://github.com/kobiton/samples) for reference.
 
-Copy contents of `samples/javascript` folder to your repository.
+In this example, we will be using the ones written in NodeJS, therefore, visit [https://github.com/kobiton/samples/tree/master/javascript](https://github.com/kobiton/samples/tree/master/javascript).
 
-You will see many testing scripts. Choose `android-app-test.js` if you want to run tests on `Android` or `ios-app-test.js` if on `iOS`.
+In `sample/javascript` folder, you will see many automation testing scripts. Choose `android-app-test.js` if you want to run tests on `Android` or `ios-app-test.js` if on `iOS`.
+
+Copy the chosen script and `package.json` to your repository.
 
 ### 3.1 Setting Username and API key
 
@@ -113,7 +113,7 @@ There are two ways to set your username and API key, you can choose either one o
 
 ![alt text](./assets/kobi-username-env.png)
 
-`Repeat step 5, 6, 7, replace `YOUR_KOBITON_API_KEY` (marked **blue**) with your Kobiton API key`
+**Note:** Repeat step 5, 6, 7, replace `YOUR_KOBITON_API_KEY` (marked **blue**) with your Kobiton API key
 
 ![alt text](./assets/kobi-api-env.png)
 
@@ -166,7 +166,7 @@ Next, follow these steps below to modify CircleCI configuration file `config.yml
 
     Because building and execution processes are done in isolated containers (CircleCI uses Docker as container management), therefore, we have to choose an image that suite your application requirements.
 
-    List of images can be found [here](https://circleci.com/docs/2.0/circleci-images/#latest-image-tags-by-language).
+    List of images can be found at [https://circleci.com/docs/2.0/circleci-images/#latest-image-tags-by-language](https://circleci.com/docs/2.0/circleci-images/#latest-image-tags-by-language).
 
     In this guide, we will be using latest version of NodeJS, therefore, we will use CircleCI's official latest NodeJS image **circleci/node:latest**
 
@@ -227,7 +227,7 @@ Next, follow these steps below to modify CircleCI configuration file `config.yml
                 command: npm run <YOUR_SCRIPT_FILENAME>
     ```
 
-### 5. Executing the automated test script
+### 5. Executing the automation test
 
 Simply push all changes to your repository and CircleCI will execute the test script. To view the execution progress in CircleCI, follow these steps below
 
@@ -241,9 +241,7 @@ Simply push all changes to your repository and CircleCI will execute the test sc
 
 ![alt text](./assets/test-details.png)
 
-### 6. Viewing Kobiton test session information
-
-Your test session details can be viewed on Kobiton website. Follow these steps below
+Your test session progress can be viewed on Kobiton website. Follow these steps below
 
 1. Go to [https://portal.kobiton.com/sessions](https://portal.kobiton.com/sessions), login with your Kobiton account.
 
@@ -252,3 +250,8 @@ Your test session details can be viewed on Kobiton website. Follow these steps b
 ![alt text](./assets/session-running-kobiton.png)
 
 3. Click on any session to view its details, commands.
+
+## 6. Fetch test session data using REST API
+
+Kobiton has already provided samples written in NodeJS on how to get session information, commands using Kobiton REST API.
+Go to https://github.com/kobiton/samples/rest-api and follow the instructions.
