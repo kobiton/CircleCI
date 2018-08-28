@@ -26,11 +26,13 @@ This part will guide you how to configure and synchronize your repository with C
 
 Let's assume that you have already had an empty GitHub repository for running automation test.
 
-In order to integrate CircleCI to a GitHub project, your repository must contain a `config.yml` in `[root]/.circleci/`. CircleCI will address the `config.yml` file to trigger the build process every time the code changed.
+In order to integrate CircleCI to a GitHub project, your repository must contain `config.yml` file in `/.circleci/`. CircleCI will address the `config.yml` file to trigger the build process every time the code changed.
+
+If your repository don't have `config.yml` file, refer to [this guide](https://circleci.com/docs/2.0/getting-started/#adding-a-yml-file) to create a basic `config.yml` file.
 
 You can skip this part if you have already had your repository integrated with CircleCI.
 
-> For instruction on how to setup and synchronize a GitHub repository with CircleCI, go to [https://circleci.com/docs/2.0/getting-started/](https://circleci.com/docs/2.0/getting-started/) for reference.
+> For instruction on how to setup and synchronize a GitHub repository with CircleCI, go to [https://circleci.com/docs/2.0/getting-started/#setting-up-your-build-on-circleci](https://circleci.com/docs/2.0/getting-started/#setting-up-your-build-on-circleci) for reference.
 
 ## 2. Getting required parameters
 In order to execute test(s) on Kobiton, these three must-have parameters must be provided : Username, API key, desired capabilities. This part will demonstrate how to get those elements
