@@ -10,4 +10,4 @@ This guide is applicable if you are using these tools and frameworks :
 - Appium as an automated testing framework.
 - React Native as the library for developing the application with.
 
-[This](./Integrate-Kobiton.md) guide will demonstrate how to execute automation tests on Kobiton devices with CircleCI
+In the [next part](./Integrate-Kobiton.md), we will demonstrate how to execute automation tests on Kobiton devices with CircleCI.
