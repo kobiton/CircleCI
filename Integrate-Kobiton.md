@@ -24,7 +24,7 @@
 ## 1. Configuring GitHub repository to be used with CircleCI
 Let's assume that you have already had an empty GitHub repository for running automation test.
 
-In order to integrate CircleCI to a GitHub project, your repository must have contain `.circleci` folder in the root directory with `config.yml` file inside. CircleCI will address the `config.yml` file to trigger the build process every time the code changed.
+In order to integrate CircleCI to a GitHub project, your repository must have `.circleci` folder containing `config.yml` file in the root directory. CircleCI will address the `config.yml` file to trigger the build process every time the code changed.
 
 If your repository don't have `config.yml` file, refer to [this guide](https://circleci.com/docs/2.0/getting-started/#adding-a-yml-file) to create a basic `config.yml` file.
 
