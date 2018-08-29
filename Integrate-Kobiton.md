@@ -19,7 +19,7 @@
     > If your don't have one, go to [https://portal.kobiton.com/register](https://portal.kobiton.com/register) to create an account.
 - A GitHub account that will be used to login to CircleCI
     > If you don't have one, go to [https://github.com/join](https://github.com/join) to create an account.
-- A GitHub repository to be used for storing automation testing script(s). CircleCI will execute that script(s), which will execute the test on Kobiton devices.
+- A GitHub repository to be used for storing automation testing script(s). CircleCI will automatically execute that script(s), which will execute the test on Kobiton devices.
 
 ## 1. Configuring GitHub repository to be used with CircleCI
 Let's assume that you have already had an empty GitHub repository for running automation test.
