@@ -78,8 +78,6 @@ In order to interact with a specific device in Kobiton, its corresponding desire
 To demonstrate automation testing on iOS, repeat above steps with an iOS device (in this example, we will be using `iPhone 8 Plus` running `iOS 11.0`) and replace the `Application URL` field with the URL of `UIKitCatalog-Test-Adhoc` application:
 > https://s3-ap-southeast-1.amazonaws.com/kobiton-devvn/apps-test/UIKitCatalog-Test-Adhoc.ipa
 
-![Example iOS DesiredCaps](./docs/assets/desired-caps-example-ios.png)
-
 ### 3. Modifying scripts and configuration file
 
 #### 3.1 Configuring automation test script
@@ -89,9 +87,7 @@ In `samples/automation-test` folder, we have provided two sample scripts for exe
 
 2. Replace `desiredCaps` value with the one taken above.
 
-Desired Capabilities for executing mentioned sample applications:
-
-For Android devices:
+Example of desired capabilities for executing `ApiDemos-debug` application on `Pixel 2 XL` running `Android 8.1.0`:
 
 ```javascript
 const desiredCaps = {
@@ -104,22 +100,6 @@ const desiredCaps = {
   deviceName:         'Pixel 2 XL',
   platformVersion:    '8.1.0',
   platformName:       'Android' 
-}
-```
-
-For iOS devices:
-
-```javascript
-const desiredCaps = {
-  sessionName:        'Automation test session',
-  sessionDescription: 'Demo Automation Test on iOS', 
-  deviceOrientation:  'portrait',  
-  captureScreenshots: true, 
-  app:                'https://s3-ap-southeast-1.amazonaws.com/kobiton-devvn/apps-test/UIKitCatalog-Test-Adhoc.ipa', 
-  deviceGroup:        'KOBITON', 
-  deviceName:         'iPhone 8 Plus',
-  platformVersion:    '11.0',
-  platformName:       'iOS' 
 }
 ```
 
