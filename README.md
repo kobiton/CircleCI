@@ -26,13 +26,13 @@ To get your Kobiton Username and API Key, follow instruction at `IV. Configure T
 
 ### 2. Samples
 In this repository, we have already provided samples for executing automation test in Kobiton:
-- Script for executing automation test on Kobiton iOS devices (`/samples/ios-app-test.js`).
-- Script for executing automation test on Kobiton Android devices (`/samples/android-app-test.js`).
+- Script for executing automation test on Kobiton iOS devices (`/samples/automation-test/ios-app-test.js`).
+- Script for executing automation test on Kobiton Android devices (`/samples/automation-test/android-app-test.js`).
 - CircleCI configuration file (`/.circleci/config.yml`).
 
-Link to the sample(s): https://github.com/kobiton/CircleCI-HockeyApp-Appium-ReactNative/tree/master/samples
+Link to the sample(s) folder: https://github.com/kobiton/CircleCI-HockeyApp-Appium-ReactNative/tree/master/samples
 
-In this guide, as we will be using the provided example, therefore, follow these steps below:
+In this guide, we will be using the provided examples. Follow steps below to get started:
 
 1. Fork this repository https://github.com/kobiton/CircleCI-HockeyApp-Appium-ReactNative
 
@@ -54,7 +54,20 @@ Your `Environment Variables` window should look like this
 ![Environment variables](./docs/assets/env-variables-after-add.png)
 
 ### 2. Getting Kobiton device desired capabilities
-In order to interact with a specific device in Kobiton, its corresponding desired capabilities needs to be supplied. In this example, we will be demonstrating how to get desired capabilities to execute `ApiDemos-debug` application on `Pixel 2 XL` running `Android 8.1.0`.
+In order to interact with a specific device in Kobiton, its corresponding desired capabilities needs to be supplied. 
+
+Kobiton has already provided two sample applications for testing on Android and iOS:
+
+- Android: `ApiDemos-debug`.
+> Application URL: https://appium.github.io/appium/assets/ApiDemos-debug.apk
+- iOS: `UIKitCatalog-Test-Adhoc`.
+> Application URL: https://s3-ap-southeast-1.amazonaws.com/kobiton-devvn/apps-test/UIKitCatalog-Test-Adhoc.ipa
+
+In the provided sample automation test scripts, we have pre-configured them to execute the provided sample application(s) on one of the available device(s) that has the name `Galaxy` for Android and `iPhone` for iOS. If you want to use other specific device(s), follow the instruction below to get the corresponding desired capabilities for that device(s).
+
+**How to get desired capabilities**
+
+In this tutorial, we will be showing how to get desired capabilities for executing automation test of provided sample application `ApiDemos-debug` on `Pixel 2 XL` running `Android 8.1.0`.
 
 1. Go to [https://portal.kobiton.com/login](https://portal.kobiton.com/login) and login with your Kobiton account.
 2. Click **"Devices"** at the top of the window.
@@ -65,25 +78,25 @@ In order to interact with a specific device in Kobiton, its corresponding desire
 
 ![Automation Settings button](./docs/assets/gear-button.png)
 
-4. In the popup window:
+4. In the `Automation Settings` popup:
 - In `Language` section, choose `NodeJS`.
 
 - In `App Type` section, choose `Hybrid/Native from Url`.
 
-- In `Application Url` field, replace with URL of `ApiDemos-debug` application:
-    > https://appium.github.io/appium/docs/assets/ApiDemos-debug.apk
+- In `Application Url` field, replace it with the mentioned URL of `ApiDemos-debug` application.
 
 ![Example Android DesiredCaps](./docs/assets/desired-caps-example-android.png)
-
-To demonstrate automation testing on iOS, repeat above steps with an iOS device (in this example, we will be using `iPhone 8 Plus` running `iOS 11.0`) and replace the `Application URL` field with the URL of `UIKitCatalog-Test-Adhoc` application:
-> https://s3-ap-southeast-1.amazonaws.com/kobiton-devvn/apps-test/UIKitCatalog-Test-Adhoc.ipa
 
 ### 3. Modifying scripts and configuration file
 
 #### 3.1 Configuring automation test script
 In `samples/automation-test` folder, we have provided two sample scripts for executing automation test on Kobiton iOS and Android devices.
 
-1. Open `android-app-test.js` if you want to execute test on Android or `ios-app-test.js` if on iOS.
+As mentioned above, the desired capabilities in provided automation test scripts have already been pre-configured. If you have chosen custom desired capabilities, please follow steps below to apply the collected desired capabilities.
+
+**Setting desired capabilities**
+
+1. Open `android-app-test.js` if your desired capabilities is applicable for Android or `ios-app-test.js` if for iOS.
 
 2. Replace `desiredCaps` value with the one taken above.
 
@@ -110,7 +123,7 @@ const desiredCaps = {
 
 As the automation testing script is written in NodeJS, which requires the execution environment to have NodeJS installed, therefore, we will be using CircleCI official latest NodeJS container `circleci/node:latest` as the execution environment.
 
-In the provided CircleCI configuration file `.circleci/config.yml`, the execution environment has already been set to using the mentioned container.
+In the provided CircleCI configuration file `/.circleci/config.yml`, the execution environment has already been set to using the mentioned container.
 
 ```yaml
 docker:

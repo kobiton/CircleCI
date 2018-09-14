@@ -5,6 +5,8 @@ import {assert} from 'chai'
 
 const username = process.env.KOBITON_USERNAME
 const apiKey = process.env.KOBITON_API_KEY
+const platformVersion = process.env.KOBITON_DEVICE_PLATFORM_VERSION
+const deviceName = process.env.KOBITON_DEVICE_PLATFORM_VERSION || 'Galaxy*'
 
 const kobitonServerConfig = {
   protocol: 'https',
@@ -19,12 +21,15 @@ const desiredCaps = {
   captureScreenshots: true, 
   app:                'https://appium.github.io/appium/assets/ApiDemos-debug.apk', 
   deviceGroup:        'KOBITON', 
-  deviceName:         'Pixel 2 XL',
-  platformVersion:    '8.1.0',
+  deviceName:         deviceName,
   platformName:       'Android' 
 }
 
 let driver
+
+if (platformVersion) {
+  desiredCaps.platformVersion = platformVersion
+}
 
 if (!username || !apiKey || !desiredCaps.app) {
   console.log('Error: Environment variables KOBITON_USERNAME, KOBITON_API_KEY and Application URL are required to execute script')

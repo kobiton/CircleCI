@@ -5,6 +5,8 @@ import {assert} from 'chai'
 
 const username = process.env.KOBITON_USERNAME
 const apiKey = process.env.KOBITON_API_KEY
+const platformVersion = process.env.KOBITON_DEVICE_PLATFORM_VERSION
+const deviceName = process.env.KOBITON_DEVICE_PLATFORM_VERSION || 'iPhone*'
 
 const kobitonServerConfig = {
   protocol: 'https',
@@ -19,12 +21,15 @@ const desiredCaps = {
   captureScreenshots: true, 
   app:                'https://s3-ap-southeast-1.amazonaws.com/kobiton-devvn/apps-test/UIKitCatalog-Test-Adhoc.ipa', 
   deviceGroup:        'KOBITON', 
-  deviceName:         'iPhone 8 Plus',
-  platformVersion:    '11.0',
+  deviceName:         deviceName,
   platformName:       'iOS' 
 }
 
 let driver
+
+if (platformVersion) {
+  desiredCaps.platformVersion = platformVersion
+}
 
 if (!username || !apiKey || !desiredCaps.app) {
   console.log('Error: Environment variables KOBITON_USERNAME, KOBITON_API_KEY and Application URL are required to execute script')
