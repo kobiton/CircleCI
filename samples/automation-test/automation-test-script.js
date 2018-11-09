@@ -1,7 +1,9 @@
 import 'babel-polyfill'
 import 'colors'
 import wd from 'wd'
-import {assert} from 'chai'
+import {
+  assert
+} from 'chai'
 
 const username = process.env.KOBITON_USERNAME
 const apiKey = process.env.KOBITON_API_KEY
@@ -21,13 +23,13 @@ const kobitonServerConfig = {
 }
 
 const desiredCaps = {
-  sessionName:        'Automation Test Session',
+  sessionName: 'Automation Test Session',
   sessionDescription: 'This is an example of automation testing of an Android application',
-  deviceOrientation:  deviceOrientation,
+  deviceOrientation: deviceOrientation,
   captureScreenshots: captureScreenshots,
-  deviceName:         deviceName,
-  deviceGroup:        deviceGroup,
-  platformName:       platformName,
+  deviceName: deviceName,
+  deviceGroup: deviceGroup,
+  platformName: platformName,
   app: app
 }
 
@@ -59,30 +61,28 @@ describe('Android App sample', () => {
 
     try {
       await driver.init(desiredCaps)
-    }
-    catch (err) {
+    } catch (err) {
       if (err.data) {
         console.error(`init driver: ${err.data}`)
       }
-    throw err
+      throw err
     }
   })
 
   it('should show the app label', async () => {
     await driver.elementByClassName("android.widget.TextView")
-      .text().then(function(text) {
+      .text().then(function (text) {
         assert.equal(text.toLocaleLowerCase(), 'api demos')
       })
   })
 
   after(async () => {
     if (driver != null) {
-    try {
-      await driver.quit()
+      try {
+        await driver.quit()
+      } catch (err) {
+        console.error(`quit driver: ${err}`)
+      }
     }
-    catch (err) {
-      console.error(`quit driver: ${err}`)
-    }
-  }
   })
 })

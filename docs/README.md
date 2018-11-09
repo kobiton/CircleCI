@@ -34,8 +34,8 @@ You can check out the sample content or keep reading because they are used in be
 Follow steps below to get started:
 
 1. Fork this repository.
-2. Synchronize the forked repository with CircleCI.
-> Refer to [CircleCI documentation](https://circleci.com/docs/2.0/getting-started/) for instructions on how to synchronize a repository with CircleCI.
+2. Add the forked repository to CircleCI.
+> Refer to [CircleCI documentation](https://circleci.com/docs/2.0/getting-started/#setting-up-your-build-on-circleci) for instructions on how to add a repository to CircleCI.
 >
 > Note : At first synchronization, the build process will be failed because we haven't done any configuration. This is normal, just ignore the `Build Failed` message.
 
