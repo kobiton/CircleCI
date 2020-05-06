@@ -17,7 +17,7 @@ const platformName = process.env.KOBITON_DEVICE_PLATFORM_NAME || 'Android'
 const groupId = Number(process.env.KOBITON_ORGANIZATION_GROUP_ID)
 
 const kobitonServerConfig = {
-  protocol: 'https',
+  protocol: 'http:',
   host: 'api.kobiton.com',
   auth: `${username}:${apiKey}`
 }
