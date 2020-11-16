@@ -3,22 +3,30 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:latest
+      - image: 'circleci/node:latest'
     steps:
       - add_ssh_keys
       - run:
-        name: "Adding Github ssh key."
-        command: |
-          echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
+          name: Adding Github ssh key.
+          command: >
+            echo 'github.com ssh-rsa
+            AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=='
+            >> ~/.ssh/known_hosts
       - run:
-          name: "Checkout Appium test repo"
-          command: git clone git@github.com:freeletics/Appium_e2e_tests.git
+          name: Checkout Appium test repo
+          command: 'git clone git@github.com:freeletics/Appium_e2e_tests.git'
       - run:
-          name: "Parse environment file containing the test data from postman and build project"
-          command: |
+          name: >-
+            Parse environment file containing the test data from postman and
+            build project
+          command: >
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
+
             echo "$EMAILS"
-            cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS}
+
+            cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=ANDROID
+            -Demails=${EMAILS}
+
             ./mvnw clean package -Dapp.os=ANDROID -Demails=${EMAILS}
       - persist_to_workspace:
           root: Appium_e2e_tests
