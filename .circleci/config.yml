@@ -17,13 +17,7 @@ jobs:
       - run:
           name: "Checkout Appium test repo"
           command: git clone git@github.com:freeletics/Appium_e2e_tests.git
-      - run:
-          name: "Parse environment file containing the test data from postman and build project"
-          command: |
-            $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
-            echo "$EMAILS"
-            cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS}
-            ./mvnw clean package -Dapp.os=ANDROID -Demails=${EMAILS}
+          
       - persist_to_workspace:
           root: Appium_e2e_tests
           paths:
