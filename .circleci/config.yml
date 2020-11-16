@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  build_appium_tests:
+  build:
     working_directory: /home/circleci/repo
     docker:
       - image: freeletics/android-sdk-fastlane:1.7
