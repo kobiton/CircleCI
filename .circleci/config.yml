@@ -8,7 +8,7 @@ jobs:
   build:
     working_directory: /home/circleci/repo
     docker:
-      - image: freeletics/android-sdk-fastlane:1.7
+      - image: appium/appium:latest
     steps:
       - attach_workspace:
           at: .
