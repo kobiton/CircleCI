@@ -8,7 +8,7 @@ jobs:
   build:
     working_directory: /home/circleci/repo
     docker:
-      - image: rgonalo/appium
+      - image: thenishant/appium
     steps:
       - attach_workspace:
           at: .
