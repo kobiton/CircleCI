@@ -25,5 +25,6 @@ jobs:
       - run:
           name: run tests
           command: |
+            appium
             cd Appium_e2e_tests
             ./mvnw clean test -Dsurefire.suiteXmlFiles=/src/test/resources/testng.xml -Dapp.os=ANDROID -Demails="" -Dis.kobiton=true
