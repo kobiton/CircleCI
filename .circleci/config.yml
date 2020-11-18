@@ -4,7 +4,31 @@ parameters:
     type: boolean
     default: true
 
+
 jobs:
+  postman_test_data:
+    docker:
+      - image: sirech/newman-executor:13.6
+    steps:
+      - add_ssh_keys
+      - run:
+          name: "Adding Github ssh key."
+          command: |
+            # Copied from checkout step
+            echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
+      - run:
+          name: "Checkout Postman data creation repo"
+          command: git clone git@github.com:freeletics/postman-data-generator.git
+      - run:
+          name: "Run collection"
+          command: |
+            cd postman-data-generator/appium_data
+            npx newman run appium_new_user_create.postman_collection.json -d registration_data_iterations.csv -e staging.postman_environment.json --export-environment env.json
+      - persist_to_workspace:
+          root: postman-data-generator/appium_data
+          paths:
+            - env.json
+
   build:
     working_directory: /home/circleci/repo
     docker:
@@ -23,7 +47,7 @@ jobs:
             apt-get -y update && apt-get -y install git
             git clone git@github.com:freeletics/Appium_e2e_tests.git
       - run:
-          name: run tests
+          name: "Run tests"
           command: |
             cd Appium_e2e_tests
             ./mvnw clean install  -Dapp.os=ANDROID -Demails="" -Dis.kobiton=true
