@@ -45,6 +45,7 @@ jobs:
       - run:
           name: "Parse environment file containing the test data from postman and run tests"
           command: |
+            apt-get install jq
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
             echo "$EMAILS"
             cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true
