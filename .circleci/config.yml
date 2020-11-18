@@ -57,7 +57,7 @@ jobs:
 workflows:
   jobs:
     - postman_test_data
-    - run_appium_tests
+    - run_appium_tests:
         requires:
           - postman_test_data
 
