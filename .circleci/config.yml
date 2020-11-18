@@ -51,12 +51,47 @@ jobs:
             cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true
             ./mvnw clean test -Dsurefire.suiteXmlFiles=/src/test/resources/testng.xml -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true
 
+  run_appium_tests_ios:
+    working_directory: /home/circleci/repo
+    docker:
+      - image: thenishant/appium
+    steps:
+      - attach_workspace:
+          at: .
+      - add_ssh_keys
+      - run:
+          name: "Adding Github ssh key."
+          command: |
+            echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
+      - run:
+          name: "Checkout Appium test repo"
+          command: |
+            apt-get -y update && apt-get -y install git
+            git clone git@github.com:freeletics/Appium_e2e_tests.git
+
+      - run:
+          name: "Parse environment file containing the test data from postman and run tests"
+          command: |
+            apt-get -y update && apt-get -y install jq
+            $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
+            echo "$EMAILS"
+            cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=IOS -Demails=${EMAILS} -Dis.kobiton=true
+            ./mvnw clean test -Dsurefire.suiteXmlFiles=/src/test/resources/testng.xml -Dapp.os=IOS -Demails=${EMAILS} -Dis.kobiton=true
+
 workflows:
   version: 2
   run_appium_tests_android:
     jobs:
       - postman_test_data
       - run_appium_tests_android:
+          requires:
+            - postman_test_data
+
+
+  run_appium_tests_ios:
+    jobs:
+      - postman_test_data
+      - run_appium_tests_ios:
           requires:
             - postman_test_data
 
