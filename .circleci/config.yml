@@ -49,13 +49,13 @@ jobs:
             echo "$EMAILS"
             cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true
             ./mvnw clean test -Dsurefire.suiteXmlFiles=/src/test/resources/testng.xml -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true
-            
+
 workflows:
   version: 2
   run_appium_tests_android:
     jobs:
       - postman_test_data
-      - run_appium_tests:
+      - run_appium_tests_android:
           requires:
             - postman_test_data
 
