@@ -29,7 +29,7 @@ jobs:
           paths:
             - env.json
 
-  build:
+  run_appium_tests_android:
     working_directory: /home/circleci/repo
     docker:
       - image: thenishant/appium
@@ -53,4 +53,13 @@ jobs:
             cd Appium_e2e_tests
             ./mvnw clean install  -Dapp.os=ANDROID -Demails="" -Dis.kobiton=true
             ./mvnw clean test -Dtest=RegistrationTest -Dapp.os=ANDROID -Demails="" -Dis.kobiton=true
+
+workflows:
+  jobs:
+    - postman_test_data
+    - run_appium_tests
+        requires:
+          - postman_test_data
+
+
 
