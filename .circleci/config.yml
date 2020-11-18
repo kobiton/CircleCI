@@ -1,10 +1,4 @@
 version: 2
-parameters:
-  kobiton:
-    type: boolean
-    default: true
-
-
 jobs:
   postman_test_data:
     docker:
