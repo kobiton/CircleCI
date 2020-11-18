@@ -37,6 +37,7 @@ jobs:
       - attach_workspace:
           at: .
       - add_ssh_keys
+      - postman_test_data
       - run:
           name: "Adding Github ssh key."
           command: |
