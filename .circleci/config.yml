@@ -32,7 +32,6 @@ jobs:
       - attach_workspace:
           at: .
       - add_ssh_keys
-      - postman_test_data
       - run:
           name: "Adding Github ssh key."
           command: |
@@ -42,13 +41,15 @@ jobs:
           command: |
             apt-get -y update && apt-get -y install git
             git clone git@github.com:freeletics/Appium_e2e_tests.git
-      - run:
-          name: "Run tests"
-          command: |
-            cd Appium_e2e_tests
-            ./mvnw clean install  -Dapp.os=ANDROID -Demails="" -Dis.kobiton=true
-            ./mvnw clean test -Dtest=RegistrationTest -Dapp.os=ANDROID -Demails="" -Dis.kobiton=true
 
+      - run:
+          name: "Parse environment file containing the test data from postman and run tests"
+          command: |
+            $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
+            echo "$EMAILS"
+            cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true
+            ./mvnw clean test -Dsurefire.suiteXmlFiles=/src/test/resources/testng.xml -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true
+            
 workflows:
   version: 2
   run_appium_tests_android:
