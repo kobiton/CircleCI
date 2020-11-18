@@ -55,11 +55,12 @@ jobs:
             ./mvnw clean test -Dtest=RegistrationTest -Dapp.os=ANDROID -Demails="" -Dis.kobiton=true
 
 workflows:
-  jobs:
-    - postman_test_data
-    - run_appium_tests:
-        requires:
-          - postman_test_data
+  run_appium_tests_android:
+    jobs:
+      - postman_test_data
+      - run_appium_tests:
+          requires:
+            - postman_test_data
 
 
 
