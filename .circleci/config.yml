@@ -81,7 +81,6 @@ jobs:
 workflows:
   version: 2
   run_appium_tests_android:
-    nightly:
       triggers: #use the triggers key to indicate a scheduled build
         - schedule:
             cron: "0 10 * * *" # use cron syntax to set the schedule
@@ -97,7 +96,6 @@ workflows:
 
 
   run_appium_tests_ios:
-    nightly:
       triggers: #use the triggers key to indicate a scheduled build
         - schedule:
             cron: "0 10 * * *" # use cron syntax to set the schedule
