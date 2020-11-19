@@ -79,7 +79,6 @@ jobs:
             ./mvnw clean test -Dsurefire.suiteXmlFiles=/src/test/resources/testng.xml -Dapp.os=IOS -Demails=${EMAILS} -Dis.kobiton=true
 
 workflows:
-  version: 2
   run_appium_tests_android:
       triggers: #use the triggers key to indicate a scheduled build
         - schedule:
