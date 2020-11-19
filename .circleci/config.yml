@@ -96,7 +96,6 @@ workflows:
 
 
   run_appium_tests_ios:
-    version: 2
     triggers: #use the triggers key to indicate a scheduled build
       - schedule:
           cron: "0 10 * * *" # use cron syntax to set the schedule
