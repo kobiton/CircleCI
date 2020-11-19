@@ -80,13 +80,13 @@ jobs:
 
 workflows:
   run_appium_tests_android:
-      triggers: #use the triggers key to indicate a scheduled build
-        - schedule:
-            cron: "0 10 * * *" # use cron syntax to set the schedule
-            filters:
-              branches:
-                only:
-                  - master
+    triggers: #use the triggers key to indicate a scheduled build
+      - schedule:
+          cron: "0 10 * * *" # use cron syntax to set the schedule
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - postman_test_data
       - run_appium_tests_android:
@@ -95,13 +95,13 @@ workflows:
 
 
   run_appium_tests_ios:
-      triggers: #use the triggers key to indicate a scheduled build
-        - schedule:
-            cron: "0 10 * * *" # use cron syntax to set the schedule
-            filters:
-              branches:
-                only:
-                  - master
+    triggers: #use the triggers key to indicate a scheduled build
+      - schedule:
+          cron: "0 10 * * *" # use cron syntax to set the schedule
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - postman_test_data
       - run_appium_tests_ios:
