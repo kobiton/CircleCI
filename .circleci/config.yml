@@ -81,9 +81,9 @@ jobs:
 workflows:
   version: 2
   run_appium_tests_android:
-    triggers: #use the triggers key to indicate a scheduled build
+    triggers:
       - schedule:
-          cron: "0 3 * * *" # use cron syntax to set the schedule
+          cron: "0 * * * *"
           filters:
             branches:
               only:
@@ -96,9 +96,9 @@ workflows:
 
 
   run_appium_tests_ios:
-    triggers: #use the triggers key to indicate a scheduled build
+    triggers:
       - schedule:
-          cron: "0 3 * * *" # use cron syntax to set the schedule
+          cron: "0 * * * *"
           filters:
             branches:
               only:
@@ -110,4 +110,9 @@ workflows:
             - postman_test_data
 
 
-
+  run_appium_tests_android_pull:
+    jobs:
+      - postman_test_data
+      - run_appium_tests_android:
+          requires:
+            - postman_test_data
