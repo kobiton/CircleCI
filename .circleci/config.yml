@@ -51,7 +51,7 @@ jobs:
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
             echo "$EMAILS"
             cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true
-            ./mvnw  -Dtest=CheckAudioRecommendationsTest,RegistrationTest test -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true
+            ./mvnw clean test -Dsurefire.suiteXmlFiles=/src/test/resources/testng.xml -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true
 
   run_appium_tests_ios:
     working_directory: /home/circleci/repo
