@@ -18,7 +18,7 @@ jobs:
           name: "Run collection"
           command: |
             cd postman-data-generator/appium_data
-            npx newman run appium_new_user_create.postman_collection2.json -d registration_data_iterations.csv -e staging.postman_environment.json --export-environment env.json
+            npx newman run appium_new_user_create2.postman_collection.json -d registration_data_iterations.csv -e staging.postman_environment.json --export-environment env.json
       - persist_to_workspace:
           root: postman-data-generator/appium_data
           paths:
