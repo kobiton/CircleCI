@@ -70,6 +70,7 @@ jobs:
           command: |
             apt-get -y update && apt-get -y install git
             git clone git@github.com:freeletics/Appium_e2e_tests.git
+            cd Appium_e2e_tests
             git checkout tests-adapted-kobiton
 
       - run:
