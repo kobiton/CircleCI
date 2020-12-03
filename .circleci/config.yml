@@ -51,6 +51,8 @@ jobs:
             echo "$EMAILS"
             cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true
             ./mvnw clean test -DCoachAdaptationTest,CheckAudioRecommendationsTest -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true
+      - store_artifacts:
+          path: /target/surefire-reports
 
   run_appium_tests_ios:
     working_directory: /home/circleci/repo
