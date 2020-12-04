@@ -57,8 +57,6 @@ jobs:
     docker:
       - image: freeletics/android-sdk:1.4
     steps:
-      - prepare_android_release
-      - set_signing_config
       - run:
           name: Assemble release
           command: |
