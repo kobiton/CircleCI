@@ -54,7 +54,8 @@ jobs:
             - env.json
 
   assemble_freeletics_app_testio_clean_release:
-    executor: fastlane_android_large
+    docker:
+      - image: freeletics/android-sdk:1.4
     steps:
       - prepare_android_release
       - set_signing_config
