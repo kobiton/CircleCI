@@ -1,5 +1,9 @@
 version: 2.1
-
+executors:
+  android_large:
+    resource_class: large
+    docker:
+      - image: freeletics/android-sdk:1.4
 orbs:
   prepare-workflow: freeletics/prepare-mobile-workflow@1.7.0
 commands:
@@ -35,8 +39,6 @@ jobs:
 
   assemble_freeletics_app_testio_clean_release:
     executor: android_large
-    docker:
-      - image: freeletics/android-sdk:1.4
     steps:
       - add_ssh_key
       - run:
