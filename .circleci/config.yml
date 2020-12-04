@@ -7,27 +7,6 @@ release_gradle_user_home: &release_gradle_user_home config/ci/release
 dependencies_file: &dependencies_file '"gradle.properties"'
 release_cache_modifier: &release_cache_modifier release
 
-commands:
-  prepare_android_release:
-    steps:
-      - prepare-workflow/prepare-android-job:
-          android_cache_version: *release_android_cache_version
-          gradle_cache_version: *release_gradle_cache_version
-          cache_modifier: *release_cache_modifier
-          dependencies_file: *dependencies_file
-
-  set_signing_config:
-    steps:
-      - run:
-          name: Set signing config
-          # We're adding 10000 here to get the build number monotonically increasing
-          # because we've changed the strategy how it is determined over time.
-          command: |
-            echo "export BUILD_NUMBER=$((CIRCLE_BUILD_NUM + 10000))" >> $BASH_ENV
-            export KEY_STORE_FILE=`mktemp`
-            echo $KEY_STORE_BASE64 | base64 --decode > $KEY_STORE_FILE
-            echo "export KEY_STORE_FILE=$KEY_STORE_FILE" >> $BASH_ENV
-
 jobs:
   postman_test_data:
     docker:
