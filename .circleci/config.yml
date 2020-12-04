@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 git_cache_version: &git_cache_version v3
 release_android_cache_version: &release_android_cache_version v7
