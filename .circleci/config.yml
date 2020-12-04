@@ -32,6 +32,7 @@ jobs:
             - env.json
 
   assemble_freeletics_app_testio_clean_release:
+    resource_class: large
     docker:
       - image: freeletics/android-sdk:1.4
     steps:
