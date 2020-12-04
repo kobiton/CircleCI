@@ -1,17 +1,23 @@
 version: 2.1
 
+commands:
+  add_ssh_key:
+    steps:
+      - run:
+          name: "Adding Github ssh key."
+          # We're adding 10000 here to get the build number monotonically increasing
+          # because we've changed the strategy how it is determined over time.
+          command: |
+            mkdir ~/.ssh
+            # Copied from checkout step
+            echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
+
 jobs:
   postman_test_data:
     docker:
       - image: sirech/newman-executor:13.6
     steps:
-      - add_ssh_keys
-      - run:
-          name: "Adding Github ssh key."
-          command: |
-            mkdir ~/.ssh
-            # Copied from checkout step
-            echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
+      - add_ssh_key
       - run:
           name: "Checkout Postman data creation repo"
           command: git clone git@github.com:freeletics/postman-data-generator.git
@@ -29,6 +35,7 @@ jobs:
     docker:
       - image: freeletics/android-sdk:1.4
     steps:
+      - add_ssh_key
       - run:
           no_output_timeout: 40m
           name: Assemble release
