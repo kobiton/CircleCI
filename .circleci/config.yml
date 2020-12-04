@@ -1,4 +1,33 @@
 version: 2
+
+git_cache_version: &git_cache_version v3
+release_android_cache_version: &release_android_cache_version v7
+release_gradle_cache_version: &release_gradle_cache_version v9
+release_gradle_user_home: &release_gradle_user_home config/ci/release
+dependencies_file: &dependencies_file '"gradle.properties"'
+release_cache_modifier: &release_cache_modifier release
+
+commands:
+  prepare_android_release:
+    steps:
+      - prepare-workflow/prepare-android-job:
+          android_cache_version: *release_android_cache_version
+          gradle_cache_version: *release_gradle_cache_version
+          cache_modifier: *release_cache_modifier
+          dependencies_file: *dependencies_file
+
+  set_signing_config:
+    steps:
+      - run:
+          name: Set signing config
+          # We're adding 10000 here to get the build number monotonically increasing
+          # because we've changed the strategy how it is determined over time.
+          command: |
+            echo "export BUILD_NUMBER=$((CIRCLE_BUILD_NUM + 10000))" >> $BASH_ENV
+            export KEY_STORE_FILE=`mktemp`
+            echo $KEY_STORE_BASE64 | base64 --decode > $KEY_STORE_FILE
+            echo "export KEY_STORE_FILE=$KEY_STORE_FILE" >> $BASH_ENV
+
 jobs:
   postman_test_data:
     docker:
@@ -24,6 +53,29 @@ jobs:
           paths:
             - env.json
 
+  assemble_freeletics_app_testio_clean_release:
+    executor: fastlane_android_large
+    steps:
+      - prepare_android_release
+      - set_signing_config
+      - run:
+          name: Assemble release
+          command: |
+            git clone git@github.com:freeletics/fl-application-android.git
+            cd fl-application-android
+            ./gradlew app:freeletics:assembleStagingApiRelease
+      - persist_to_workspace:
+          root: .
+          paths:
+            - app/freeletics/build/outputs/apk
+            - app/freeletics/build/outputs/mapping
+      - store_artifacts:
+          path: app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
+          destination: apks/freeletics-stagingApi-release.apk
+      - store_artifacts:
+          path: app/freeletics/build/outputs/mapping/stagingApiRelease/mapping.txt
+          destination: apks/freeletics-stagingApi-release-mapping.txt
+
   run_appium_tests_android:
     working_directory: /home/circleci/repo
     docker:
@@ -36,6 +88,19 @@ jobs:
           name: "Adding Github ssh key."
           command: |
             echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
+      - prepare-workflow/prepare-android-workflow:
+          name: "prepare_workflow"
+          git_cache_version: *git_cache_version
+          android_cache_version: *release_android_cache_version
+          gradle_cache_version: *release_gradle_cache_version
+          dependencies_file: *dependencies_file
+          cache_modifier: *release_cache_modifier
+          gradle_user_home: *release_gradle_user_home
+          sync_dependencies:
+            - sync_all_dependencies
+      - assemble_freeletics_app_testio_clean_release:
+          requires:
+            - prepare_workflow
       - run:
           name: "Checkout Appium test repo"
           command: |
@@ -52,7 +117,7 @@ jobs:
             cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true
             ./mvnw clean test -DCoachAdaptationTest,CheckAudioRecommendationsTest -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true
       - store_artifacts:
-          path: /target/surefire-reports
+          path: ./target/surefire-reports
 
   run_appium_tests_ios:
     working_directory: /home/circleci/repo
