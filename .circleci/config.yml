@@ -1,4 +1,7 @@
 version: 2.1
+orbs:
+  prepare-workflow: freeletics/prepare-mobile-workflow@1.7.0
+
 
 git_cache_version: &git_cache_version v3
 release_android_cache_version: &release_android_cache_version v7
