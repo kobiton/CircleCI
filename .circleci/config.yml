@@ -66,16 +66,6 @@ jobs:
           name: "Adding Github ssh key."
           command: |
             echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
-      - prepare_android_release:
-          name: "prepare_workflow"
-          git_cache_version: *git_cache_version
-          android_cache_version: *release_android_cache_version
-          gradle_cache_version: *release_gradle_cache_version
-          dependencies_file: *dependencies_file
-          cache_modifier: *release_cache_modifier
-          gradle_user_home: *release_gradle_user_home
-          sync_dependencies:
-            - sync_all_dependencies
       - assemble_freeletics_app_testio_clean_release:
           requires:
             - prepare_workflow
