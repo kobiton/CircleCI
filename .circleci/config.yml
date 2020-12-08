@@ -26,6 +26,12 @@ orbs:
   prepare-workflow: freeletics/prepare-mobile-workflow@1.7.0
 
 commands:
+  set_ruby_version:
+    steps:
+      - run:
+          name: Set Ruby Version
+          command:  echo "ruby-2.7.0" > ~/.ruby-version
+
   add_ssh_key:
     steps:
       - run:
@@ -40,6 +46,9 @@ commands:
       - add_ssh_keys: # Add ssh key used for private pods
           fingerprints:
             - "2a:e6:ed:7c:3b:61:f5:05:9a:d1:82:5f:38:21:5d:94"
+      - set_ruby_version
+
+
 
 jobs:
   postman_test_data:
