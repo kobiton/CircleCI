@@ -126,7 +126,7 @@ jobs:
 
             echo $URL
 
-            curl  -T "app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk" \
+            curl -v -T "app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk" \
              -H "Content-Type: application/octet-stream" \
              -H "x-amz-tagging: unsaved=true" \
              -X PUT $URL
@@ -134,7 +134,7 @@ jobs:
             export ID=$(curl -X GET https://api.kobiton.com/v1/apps \
               -H "Authorization: Basic ${KOBITON_AUTH}" \
               -H 'Accept: application/json' | jq -r .apps[-1].id)''
-            echo $ID 
+            echo $ID
 
   run_appium_tests_android:
     working_directory: /home/circleci/repo
