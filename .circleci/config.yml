@@ -206,10 +206,10 @@ workflows:
 
   run_appium_tests_android_pull:
     jobs:
-      - assemble_freeletics_app_testio_clean_release
+      - assemble_freeletics_android_release
       - upload_apk_to_kobiton:
           requires:
-            - assemble_freeletics_app_testio_clean_release
+            - assemble_freeletics_android_release
       - assemble_freeletics_ios_alpha
       - run_appium_tests_android:
           requires:
