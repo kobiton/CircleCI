@@ -133,7 +133,7 @@ jobs:
 
             export ID=$(curl -X GET https://api.kobiton.com/v1/apps \
               -H "Authorization: Basic ${KOBITON_AUTH}" \
-              -H 'Accept: application/json' | jq -r .apps[-1].id)'
+              -H 'Accept: application/json' | jq -r .apps[-1].id)''
             echo $ID >> $BASH.ENV
 
   run_appium_tests_android:
