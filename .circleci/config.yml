@@ -44,10 +44,10 @@ jobs:
       - run:
           name: Curl to generate presign url
           command: |
-            echo export AUTH=${KOBITON_AUTH}" >> $BASH_ENV
+            echo "export AUTH=${KOBITON_AUTH}" >> $BASH_ENV
             source $BASH_ENV
             vim $BASH_ENV
-          
+
             curl -v -XPOST -H 'Authorization: Basic ${AUTH}' -H "Content-type: application/json" -d '{
             "filename" :  "app-debug.apk"}' 'https://api.kobiton.com/v1/apps/uploadUrl'
             URL=“$(curl -XPOST -H 'Authorization: Basic ${AUTH}' -H "Content-type: application/json" -d '{
