@@ -44,8 +44,9 @@ jobs:
       - run:
           name: Curl to generate presign url
           command: |
-            URL=“$(curl -XPOST -H "Authorization: Basic ${KOBITON_AUTH}" -H "Content-type: application/json" -d '{
-            "filename" :  "app-debug.apk"}' 'https://api.kobiton.com/v1/apps/uploadUrl'  | jq --raw-output .url)”
+            export RESPONSE=curl -XPOST -H "Authorization: Basic ${KOBITON_AUTH}" -H "Content-type: application/json" -d '{
+            "filename" :  "app-debug.apk"}' 'https://api.kobiton.com/v1/apps/uploadUrl'
+            echo $RESPONSE | jq .url
 
 
 
