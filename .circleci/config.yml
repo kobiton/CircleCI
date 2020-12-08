@@ -29,8 +29,6 @@ commands:
     steps:
       - run:
           name: "Adding Github ssh key."
-          # We're adding 10000 here to get the build number monotonically increasing
-          # because we've changed the strategy how it is determined over time.
           command: |
             mkdir ~/.ssh
             # Copied from checkout step
@@ -77,7 +75,9 @@ jobs:
   assemble_freeletics_ios_alpha:
     executor: macos
     steps:
-      - add_ssh_key
+      - run:
+          name: add key
+          command: echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
       - run:
           no_output_timeout: 40m
           name: Assemble alpha
@@ -107,7 +107,7 @@ jobs:
             export URL=$(curl -XPOST -H "Authorization: Basic ${KOBITON_AUTH}" -H "Content-type: application/json" -d '{
             "filename" :  "app-debug.apk"}' 'https://api.kobiton.com/v1/apps/uploadUrl' | jq -r .url)
             echo $URL
-            curl  -T "../app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk" \
+            curl  -T "/app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk" \
              -H "Content-Type: application/octet-stream" \
              -H "x-amz-tagging: unsaved=true" \
              -X PUT $URL
