@@ -62,7 +62,7 @@ jobs:
             cd stagingApi
             ls
       - persist_to_workspace:
-          root: .
+          root: fl-application-android
           path: app/freeletics/build/outputs/apk
       - store_artifacts:
           path: app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
