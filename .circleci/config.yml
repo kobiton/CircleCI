@@ -4,6 +4,11 @@ executors:
     resource_class: large
     docker:
       - image: freeletics/android-sdk:1.4
+  android_small:
+    resource_class: small
+      docker:
+          - image: freeletics/android-sdk:1.4
+
 orbs:
   prepare-workflow: freeletics/prepare-mobile-workflow@1.7.0
 commands:
@@ -57,8 +62,7 @@ jobs:
           destination: apks/freeletics-stagingApi-release.apk
 
   upload_apk_to_kobiton:
-    docker:
-      - image: sirech/newman-executor:13.6
+   executor: android_small
     steps:
       - run:
           name: Generate presigned url
