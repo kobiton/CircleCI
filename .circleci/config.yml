@@ -63,7 +63,7 @@ jobs:
             ls
       - persist_to_workspace:
           root: fl-application-android
-          path: app/freeletics/build/outputs/apk
+          path: app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
       - store_artifacts:
           path: app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
           destination: apks/freeletics-stagingApi-release.apk
