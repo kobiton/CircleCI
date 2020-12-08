@@ -60,7 +60,6 @@ jobs:
           command: |
             URL=“$(curl -XPOST -H 'Authorization: Basic ${KOBITON_API_KEY}' -H "Content-type: application/json" -d '{
             "filename" :  "app-debug.apk"}' 'https://api.kobiton.com/v1/apps/uploadUrl'  | jq --raw-output .url)”
-            
             curl  -T "app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk" \
              -H "Content-Type: application/octet-stream" \
              -H "x-amz-tagging: unsaved=true" \
