@@ -65,7 +65,7 @@ jobs:
           root: fl-application-android
           path: app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
       - store_artifacts:
-          path: app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
+          path: fl-application-android/app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
           destination: apks/freeletics-stagingApi-release.apk
 
   run_appium_tests_android:
