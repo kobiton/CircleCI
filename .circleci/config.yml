@@ -44,13 +44,11 @@ jobs:
       - run:
           name: Curl to generate presign url
           command: |
-            KOBITON_AUTH = echo ${KOBITON_AUTH}
-            URL=“$(curl -XPOST -H 'Authorization: Basic ${KOBITON_AUTH}' -H "Content-type: application/json" -d '{
-            "filename" :  "app-debug.apk"}' 'https://api.kobiton.com/v1/apps/uploadUrl'  | jq --raw-output .url)”
-            curl  -T "app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk" \
-            -H "Content-Type: application/octet-stream" \
-            -H "x-amz-tagging: unsaved=true" \
-            -X PUT $URL
+            echo ${KOBITON_AUTH}
+            curl -XPOST -H 'Authorization: Basic ${KOBITON_AUTH}' -H "Content-type: application/json" -d '{
+            "filename" :  "app-debug.apk"}' 'https://api.kobiton.com/v1/apps/uploadUrl' 
+
+
 
   run_appium_tests_android:
     working_directory: /home/circleci/repo
