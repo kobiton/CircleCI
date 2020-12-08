@@ -55,16 +55,16 @@ jobs:
       - store_artifacts:
           path: fl-application-android/app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
           destination: apks/freeletics-stagingApi-release.apk
-      - get_presigned_url:
-          run:
-            name: Curl to generate presign url
-            command: |
-              URL=“$(curl -XPOST -H 'Authorization: Basic ${KOBITON_API_KEY}' -H "Content-type: application/json" -d '{
-              "filename" :  "app-debug.apk"}' 'https://api.kobiton.com/v1/apps/uploadUrl'  | jq --raw-output .url)”
-              curl  -T "app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk" \
-               -H "Content-Type: application/octet-stream" \
-               -H "x-amz-tagging: unsaved=true" \
-               -X PUT $URL
+      - run:
+          name: Curl to generate presign url
+          command: |
+            URL=“$(curl -XPOST -H 'Authorization: Basic ${KOBITON_API_KEY}' -H "Content-type: application/json" -d '{
+             "filename" :  "app-debug.apk"}' 'https://api.kobiton.com/v1/apps/uploadUrl'  | jq --raw-output .url)”
+             curl  -T "app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk" \
+              -H "Content-Type: application/octet-stream" \
+              -H "x-amz-tagging: unsaved=true" \
+              -X PUT $URL
+
 
   run_appium_tests_android:
     working_directory: /home/circleci/repo
