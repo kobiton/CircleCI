@@ -48,18 +48,13 @@ jobs:
             git clone git@github.com:freeletics/fl-application-android.git
             cd fl-application-android
             ./gradlew app:freeletics:assembleStagingApiRelease
-
       - persist_to_workspace:
           root: .
           paths:
             - app/freeletics/build/outputs/apk
-            - app/freeletics/build/outputs/mapping
       - store_artifacts:
           path: app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
           destination: apks/freeletics-stagingApi-release.apk
-      - store_artifacts:
-          path: app/freeletics/build/outputs/mapping/stagingApiRelease/mapping.txt
-          destination: apks/freeletics-stagingApi-release-mapping.txt
 
   run_appium_tests_android:
     working_directory: /home/circleci/repo
