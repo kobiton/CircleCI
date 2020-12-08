@@ -101,7 +101,7 @@ jobs:
    executor: android_small
    steps:
       - attach_workspace:
-           at: .
+          at: .
       - run:
           name: Generate presigned url
           command: |
@@ -116,7 +116,7 @@ jobs:
              -H "Content-Type: application/octet-stream" \
              -H "x-amz-tagging: unsaved=true" \
              -X PUT $URL
-      -run:
+      - run:
           name: Get id of the upload
           command: |
             export ID=$(curl -X GET https://api.kobiton.com/v1/apps \
