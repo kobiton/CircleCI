@@ -164,5 +164,4 @@ workflows:
       - assemble_freeletics_app_testio_clean_release
       - run_appium_tests_android:
           requires:
-            - postman_test_data
             - assemble_freeletics_app_testio_clean_release
