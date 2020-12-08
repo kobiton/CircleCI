@@ -59,9 +59,11 @@ jobs:
             ls
             cd apk
             ls
+            cd stagingApi
+            ls
       - persist_to_workspace:
           root: .
-          paths:
+          path:
             - app/freeletics/build/outputs/apk
       - store_artifacts:
           path: app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
