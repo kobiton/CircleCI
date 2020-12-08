@@ -63,7 +63,7 @@ jobs:
 
   upload_apk_to_kobiton:
    executor: android_small
-    steps:
+   steps:
       - run:
           name: Generate presigned url
           command: |
