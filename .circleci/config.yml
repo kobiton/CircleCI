@@ -8,9 +8,22 @@ executors:
     resource_class: small
     docker:
       - image: freeletics/android-sdk:1.4
+  macos:
+    parameters:
+      resource_class:
+        type: string
+        default: medium
+    macos:
+      xcode: 11.7.0
+    resource_class: << parameters.resource_class >>
+    shell: /bin/bash --login -eo pipefail
+    environment:
+      LC_ALL: "en_US.UTF-8"
+      LANG: "en_US.UTF-8"
+      HOMEBREW_NO_AUTO_UPDATE: 1
 
 orbs:
-  prepare-workflow: freeletics/prepare-mobile-workflow@1.7.0
+  prepare-workflow_and: freeletics/prepare-mobile-workflow@1.7.0
 commands:
   add_ssh_key:
     steps:
@@ -42,7 +55,7 @@ jobs:
           paths:
             - env.json
 
-  assemble_freeletics_app_testio_clean_release:
+  assemble_freeletics_android_release:
     executor: android_large
     steps:
       - add_ssh_key
@@ -61,6 +74,28 @@ jobs:
           path: fl-application-android/app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
           destination: apks/freeletics-stagingApi-release.apk
 
+  assemble_freeletics_ios_alpha:
+    executor: macos
+    steps:
+      - add_ssh_key
+      - run:
+          no_output_timeout: 40m
+          name: Assemble alpha
+          command: |
+            git clone git@github.com:freeletics/fl-application-ios.git
+            cd fl-application-ios
+            bundle install
+            bundle exec fastlane build_ipa
+            ls
+      - persist_to_workspace:
+          root: /Users/distiller/project
+          paths:
+            - Freeletics.ipa
+      - store_artifacts:
+          path: fl-application-android/app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
+          destination: apks/freeletics-stagingApi-release.apk
+
+
   upload_apk_to_kobiton:
    executor: android_small
    steps:
@@ -69,18 +104,13 @@ jobs:
       - run:
           name: Generate presigned url
           command: |
-            ls
-            cd fl-application-android
             export URL=$(curl -XPOST -H "Authorization: Basic ${KOBITON_AUTH}" -H "Content-type: application/json" -d '{
             "filename" :  "app-debug.apk"}' 'https://api.kobiton.com/v1/apps/uploadUrl' | jq -r .url)
             echo $URL
-            curl  -T "fl-application-android/app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk" \
+            curl  -T "../app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk" \
              -H "Content-Type: application/octet-stream" \
              -H "x-amz-tagging: unsaved=true" \
              -X PUT $URL
-
-
-
 
 
   run_appium_tests_android:
@@ -180,6 +210,7 @@ workflows:
       - upload_apk_to_kobiton:
           requires:
             - assemble_freeletics_app_testio_clean_release
+      - assemble_freeletics_ios_alpha
       - run_appium_tests_android:
           requires:
             - upload_apk_to_kobiton
