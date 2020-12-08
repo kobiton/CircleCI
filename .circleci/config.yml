@@ -42,11 +42,6 @@ jobs:
     steps:
       - add_ssh_key
       - run:
-          name: Set up variables
-          command: |
-            echo "export KOBITON_AUTH=${KOBITON_AUTH}" >> $BASH_ENV
-            source $BASH_ENV
-      - run:
           name: Curl to generate presign url
           command: |
             curl -v -XPOST -H "Authorization: Basic ${KOBITON_AUTH}" -H "Content-type: application/json" -d '{
