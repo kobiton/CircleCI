@@ -6,7 +6,7 @@ executors:
       - image: freeletics/android-sdk:1.4
   android_small:
     resource_class: small
-      docker:
+    docker:
       - image: freeletics/android-sdk:1.4
 
 orbs:
