@@ -39,6 +39,8 @@ jobs:
 
   assemble_freeletics_app_testio_clean_release:
     executor: android_large
+    environment:
+      KOBITON_AUTH: KOBITON_AUTH
     steps:
       - add_ssh_key
       - run:
