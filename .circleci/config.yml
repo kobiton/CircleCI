@@ -49,6 +49,16 @@ jobs:
             cd fl-application-android
             ./gradlew app:freeletics:assembleStagingApiRelease
             ls
+            cd app
+            ls
+            cd freeletics
+            ls
+            cd  build
+            ls
+            cd outputs
+            ls
+            cd apk
+            ls
       - persist_to_workspace:
           root: .
           paths:
