@@ -99,6 +99,7 @@ jobs:
           no_output_timeout: 40m
           name: Assemble alpha
           command: |
+            git config --global credential.helper wincred
             git clone git@github.com:freeletics/fl-application-ios.git
             cd fl-application-ios
             bundle install
