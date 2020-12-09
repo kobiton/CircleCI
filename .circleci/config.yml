@@ -102,6 +102,7 @@ jobs:
             git clone git@github.com:freeletics/fl-application-ios.git
             cd fl-application-ios
             bundle install
+            fastlane spaceauth -u ios-ci@freeletics.com
             bundle exec fastlane build_ipa
             ls
       - persist_to_workspace:
@@ -131,9 +132,18 @@ jobs:
              -H "x-amz-tagging: unsaved=true" \
              -X PUT $URL
 
+            curl -X POST https://api.kobiton.com/v1/apps \
+              -H "Authorization: Basic ${KOBITON_AUTH}" \
+              -H 'Content-Type: application/json'\
+              -d '{
+                  "filename" :  "master.apk",
+                  "appPath" :  "app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk"
+                  }'
+
             export ID=$(curl -X GET https://api.kobiton.com/v1/apps \
               -H "Authorization: Basic ${KOBITON_AUTH}" \
-              -H 'Accept: application/json' | jq -r .apps[-1].id)''
+              -H 'Content-Type = application/json'\
+            | jq -r .apps[-1].id)''
             echo $ID
 
   run_appium_tests_android:
