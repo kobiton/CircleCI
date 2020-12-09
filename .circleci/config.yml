@@ -102,7 +102,7 @@ jobs:
           no_output_timeout: 40m
           name: Assemble alpha
           command: |
-            git clone git@${GITHUB_USER}:${GITHUB_PASSWORD}@github.com/freeleticsci/fl-application-ios.git
+            git clone git@${GITHUB_USER}:${GITHUB_PASSWORD}@github.com:freeletics/fl-application-ios.git
             cd fl-application-ios
             bundle install
             bundle exec fastlane build_ipa
