@@ -17,6 +17,7 @@ executors:
       xcode: 11.7.0
     resource_class: << parameters.resource_class >>
     shell: /bin/bash --login -eo pipefail
+    working_directory: /Users/distiller/project
     environment:
       LC_ALL: "en_US.UTF-8"
       LANG: "en_US.UTF-8"
@@ -140,7 +141,7 @@ jobs:
 
             export ID=$(curl -X GET https://api.kobiton.com/v1/apps \
               -H "Authorization: Basic ${KOBITON_AUTH}" \
-              -H 'Content-Type = application/json'\
+              -H 'Content-Type: application/json'\
             | jq -r .apps[-1].id)''
             echo $ID
 
