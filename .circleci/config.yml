@@ -90,7 +90,6 @@ jobs:
           destination: apks/freeletics-stagingApi-release.apk
 
   assemble_freeletics_ios_alpha:
-    context: "iOS"
     executor: macos
     steps:
       - prepare_standalone_job
@@ -196,6 +195,7 @@ workflows:
 
 
   run_appium_tests_ios:
+    context: "iOS"
     triggers:
       - schedule:
           cron: "0 3 * * *"
@@ -216,7 +216,6 @@ workflows:
       - upload_apk_to_kobiton:
           requires:
             - assemble_freeletics_android_release
-      - assemble_freeletics_ios_alpha
       - run_appium_tests_android:
           requires:
             - upload_apk_to_kobiton
