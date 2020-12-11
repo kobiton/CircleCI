@@ -146,7 +146,7 @@ jobs:
               -H 'Content-Type: application/json'\
               -d '{
                   "filename" :  "master.apk",
-                  "appPath" :  "${appPath}"
+                  "appPath" :  ${appPath}
                   }')
             echo $RESP2
 
