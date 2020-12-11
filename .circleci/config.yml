@@ -207,12 +207,12 @@ workflows:
       - run_appium_tests_ios:
           requires:
             - postman_test_data
-      - assemble_freeletics_ios_release:
+      - assemble_freeletics_ios_alpha:
           context: "iOS"
 
   run_appium_tests_android_pull:
     jobs:
-      - assemble_freeletics_ios_release:
+      - assemble_freeletics_ios_alpha:
           context: "iOS"
       - assemble_freeletics_android_release
       - upload_apk_to_kobiton:
