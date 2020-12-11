@@ -127,19 +127,17 @@ jobs:
             export RESP=$(curl -v -XPOST -H "Authorization: Basic ${KOBITON_AUTH}" -H "Content-type: application/json" -d '{
             "filename" :  "app-debug.apk"}' https://api.kobiton.com/v1/apps/uploadUrl)
 
-            echo $RESP
-            export URL=$RESP | jq  .url
-            export APP=$RESP | jq  .appPath
+            $(echo $RESP |jq -r 'keys[] as $k | "export \($k)=\(.[$k])"')
 
-            echo $URL
-            echo $APP
+            echo $url
+            echo $appPath
 
             echo "Uploading to s3 bucket"
 
             curl -v -T "app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk" \
              -H "Content-Type: application/octet-stream" \
              -H "x-amz-tagging: unsaved=true" \
-             -X PUT $URL
+             -X PUT $url
 
             echo "Creating an upload on kobiton"
 
