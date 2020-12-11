@@ -125,7 +125,7 @@ jobs:
           command: |
             echo "Getting the presigned url"
             export RESP=$(curl -v -XPOST -H "Authorization: Basic ${KOBITON_AUTH}" -H "Content-type: application/json" -d '{
-            "filename" :  "app-debug.apk"}' 'https://api.kobiton.com/v1/apps/uploadUrl')
+            "filename" :  "app-debug.apk"}' https://api.kobiton.com/v1/apps/uploadUrl)
 
             echo $RESP
             export URL=$RESP | jq  .url
