@@ -118,9 +118,9 @@ jobs:
   upload_apk_to_kobiton:
    executor: android_small
    steps:
-      - attach_workspace:
+     - checkout
+     - attach_workspace:
           at: .
-      - checkout
       - run: pwd
       - run: ls
       - run: ./ /scripts/upload_kobiton
