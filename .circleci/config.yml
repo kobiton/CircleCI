@@ -207,7 +207,7 @@ workflows:
       - run_appium_tests_ios:
           requires:
             - postman_test_data
-      - assemble_freeletics_android_release
+      - assemble_freeletics_android_release:
           context: "iOS"
 
   run_appium_tests_android_pull:
