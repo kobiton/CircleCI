@@ -123,24 +123,29 @@ jobs:
       - run:
           name: Upload build to kobiton
           command: |
-            export URL=$(curl -XPOST -H "Authorization: Basic ${KOBITON_AUTH}" -H "Content-type: application/json" -d '{
+            export RESP=$(curl -XPOST -H "Authorization: Basic ${KOBITON_AUTH}" -H "Content-type: application/json" -d '{
             "filename" :  "app-debug.apk"}' 'https://api.kobiton.com/v1/apps/uploadUrl' | jq -r .url)
 
-            echo $URL
+            echo $RESP
+            export URL=$RESP | jq  .url
+            export APP=$RESP | jq  .appPath
 
-            curl  -T "app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk" \
+            echo $URL
+            echo $APP
+
+            curl -v -T "app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk" \
              -H "Content-Type: application/octet-stream" \
              -H "x-amz-tagging: unsaved=true" \
              -X PUT $URL
 
-            export RESP = $(curl -X POST https://api.kobiton.com/v1/apps \
+            export RESP2 = $(curl -X POST https://api.kobiton.com/v1/apps \
               -H "Authorization: Basic ${KOBITON_AUTH}" \
               -H 'Content-Type: application/json'\
               -d '{
                   "filename" :  "master.apk",
-                  "appPath" :  "app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk"
+                  "appPath" :  $APP
                   }')
-            echo $RESP
+            echo $RESP2
 
             export ID=$(curl -X GET https://api.kobiton.com/v1/apps \
               -H "Authorization: Basic ${KOBITON_AUTH}" \
