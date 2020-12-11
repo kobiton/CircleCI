@@ -90,6 +90,7 @@ jobs:
           destination: apks/freeletics-stagingApi-release.apk
 
   assemble_freeletics_ios_alpha:
+    context: "iOS"
     executor: macos
     steps:
       - prepare_standalone_job
@@ -121,8 +122,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: cd scripts
-      - run: ./upload_kobiton
+      - run: ./scripts/upload_kobiton
 
   run_appium_tests_android:
     working_directory: /home/circleci/repo
