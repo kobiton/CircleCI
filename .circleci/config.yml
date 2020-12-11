@@ -121,9 +121,8 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: pwd
-      - run: ls
-      - run: ./ /scripts/upload_kobiton
+      - run: cd scripts
+      - run: ./ upload_kobiton
 
   run_appium_tests_android:
     working_directory: /home/circleci/repo
