@@ -120,8 +120,6 @@ jobs:
    steps:
       - attach_workspace:
           at: .
-      - run: ls
-      - run: cd scripts
       - run: ./ scripts/upload_kobiton
 
   run_appium_tests_android:
