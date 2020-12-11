@@ -141,7 +141,7 @@ jobs:
 
             echo "Creating an upload on kobiton"
 
-            export RESP2 = $(curl -v -X POST https://api.kobiton.com/v1/apps \
+            export RESP2=$(curl -X POST https://api.kobiton.com/v1/apps \
               -H "Authorization: Basic ${KOBITON_AUTH}" \
               -H 'Content-Type: application/json'\
               -d '{
