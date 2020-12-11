@@ -121,7 +121,8 @@ jobs:
       - attach_workspace:
           at: .
       - run: pwd
-      - run: ./ scripts/upload_kobiton
+      - run: ls 
+      - run: ./ /scripts/upload_kobiton
 
   run_appium_tests_android:
     working_directory: /home/circleci/repo
