@@ -203,7 +203,7 @@ workflows:
             - "fl-shared-jenkins Github"
       - upload_apk_to_kobiton:
           requires:
-            - assemble_freeletics_android_release
-      - run_appium_tests_android:
+            - assemble_freeletics_ios_alpha
+      - run_appium_tests_ios:
           requires:
             - upload_apk_to_kobiton
