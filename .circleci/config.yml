@@ -14,7 +14,7 @@ executors:
         type: string
         default: medium
     macos:
-      xcode: 12.2
+      xcode: 11.7.0
     resource_class: << parameters.resource_class >>
     shell: /bin/bash --login -eo pipefail
     working_directory: /Users/distiller/project
