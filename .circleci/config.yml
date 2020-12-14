@@ -14,7 +14,7 @@ executors:
         type: string
         default: medium
     macos:
-      xcode: 11.7.0
+      xcode: 12.2
     resource_class: << parameters.resource_class >>
     shell: /bin/bash --login -eo pipefail
     working_directory: /Users/distiller/project
@@ -92,6 +92,7 @@ jobs:
   assemble_freeletics_ios_alpha:
     executor: macos
     steps:
+      - prepare_standalone_job
       - run:
           name: github creds
           command: printf "protocol=https\\nhost=github.com\\nusername=%s\\npassword=%s\\n" \
