@@ -92,7 +92,6 @@ jobs:
   assemble_freeletics_ios_alpha:
     executor: macos
     steps:
-      - prepare_standalone_job
       - run:
           name: github creds
           command: printf "protocol=https\\nhost=github.com\\nusername=%s\\npassword=%s\\n" \
@@ -184,46 +183,24 @@ jobs:
 
 workflows:
   version: 2
-  run_appium_tests_android:
-    triggers:
-      - schedule:
-          cron: "0 3 * * *"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - postman_test_data
-      - run_appium_tests_android:
-          requires:
-            - postman_test_data
-
-
-  run_appium_tests_ios:
-    triggers:
-      - schedule:
-          cron: "0 3 * * *"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - postman_test_data
-      - run_appium_tests_ios:
-          requires:
-            - postman_test_data
-      - assemble_freeletics_ios_alpha:
-          context:
-            - "iOS"
-            - "fl-shared-jenkins Github"
 
   run_appium_tests_android_pull:
     jobs:
+      - postman_test_data
+      - assemble_freeletics_android_release
+      - upload_apk_to_kobiton:
+          requires:
+            - assemble_freeletics_android_release
+      - run_appium_tests_android:
+          requires:
+            - upload_apk_to_kobiton
+
+  run_appium_tests_ios_pull:
+    jobs:
       - assemble_freeletics_ios_alpha:
           context:
             - "iOS"
             - "fl-shared-jenkins Github"
-      - assemble_freeletics_android_release
       - upload_apk_to_kobiton:
           requires:
             - assemble_freeletics_android_release
