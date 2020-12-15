@@ -102,7 +102,6 @@ jobs:
           no_output_timeout: 40m
           name: Assemble alpha
           command: |
-            git clone git@github.com:freeletics/fl-certificates-ios.git
             git clone git@github.com:freeletics/fl-application-ios.git
             cd fl-application-ios
             bundle install
@@ -197,5 +196,6 @@ workflows:
     jobs:
       - assemble_freeletics_ios_alpha:
           context:
-            - "iOS"
             - "fl-shared-jenkins Github"
+            - "iOS"
+
