@@ -92,7 +92,6 @@ jobs:
   assemble_freeletics_ios_alpha:
     executor: macos
     steps:
-      - prepare_standalone_job
       - run:
           name: Github creds
           command: printf "protocol=https\\nhost=github.com\\nusername=%s\\npassword=%s\\n" \
