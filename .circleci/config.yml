@@ -94,13 +94,10 @@ jobs:
     steps:
       - prepare_standalone_job
       - run:
-          name: github creds
+          name: Github creds
           command: printf "protocol=https\\nhost=github.com\\nusername=%s\\npassword=%s\\n" \
             "$GITHUB_USER" "$GITHUB_TOKEN" \
             | git credential-osxkeychain store
-      - run:
-          name: Add key
-          command: echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
       - run:
           no_output_timeout: 40m
           name: Assemble alpha
@@ -202,9 +199,3 @@ workflows:
           context:
             - "iOS"
             - "fl-shared-jenkins Github"
-      - upload_apk_to_kobiton:
-          requires:
-            - assemble_freeletics_ios_alpha
-      - run_appium_tests_ios:
-          requires:
-            - upload_apk_to_kobiton
