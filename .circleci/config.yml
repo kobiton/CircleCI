@@ -131,6 +131,7 @@ jobs:
   assemble_freeletics_ios_alpha:
     executor: macos
     steps:
+      - prepare_standalone_job
       - initialize_git_configuration
       - run:
           no_output_timeout: 40m
