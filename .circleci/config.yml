@@ -33,8 +33,27 @@ commands:
           name: Set Ruby Version
           command:  echo "ruby-2.7.0" > ~/.ruby-version
 
+  install_bundler:
+    steps:
+      - run:
+          name: Install Bundler
+          command: |
+            echo 'PATH="$(ruby -e '\''puts Gem.user_dir'\'')/bin:$PATH"' >> $BASH_ENV
+            source $BASH_ENV
+            gem install --user-install bundler --version $BUNDLER_VERSION
+  install_gems:
+    steps:
+      - run:
+          name: Install Gems
+          command: |
+            if ! bundle check; then
+              echo "Installing gems to $BUNDLE_PATH"
+              bundle install
+            fi
+
   initialize_git_configuration:
     steps:
+      - install_gpg
       - add_ssh_keys
       - run:
           name: Set Git config
@@ -47,6 +66,11 @@ commands:
             echo $GPG_PRIVATE_KEY | base64 -d > $PRIVATE_KEY_FILE
             gpg --import $PRIVATE_KEY_FILE
 
+  install_gpg:
+    steps:
+      - run:
+          name: Installing GPG
+          command: brew install gpg
 
   add_ssh_key:
     steps:
@@ -63,6 +87,8 @@ commands:
           fingerprints:
             - "2a:e6:ed:7c:3b:61:f5:05:9a:d1:82:5f:38:21:5d:94"
       - set_ruby_version
+      - install_bundler
+      - install_gems
 
 jobs:
   postman_test_data:
