@@ -18,6 +18,13 @@ executors:
     resource_class: << parameters.resource_class >>
     shell: /bin/bash --login -eo pipefail
     working_directory: /Users/distiller/project
+    ruby_version: &ruby_version "2.7.0"
+    bundler_version: &bundler_version "2.1.4"
+    # last segment should be equal ruby_version above
+    bundler_path: &bundler_path vendor/bundle/2.7
+    # first segment should be the same as &bundler_path
+    bundler_extensions_path: &bundler_extensions_path vendor/bundle/2.7/ruby/2.7.0
+    git_cache_version: &git_cache_version v6
     environment:
       LC_ALL: "en_US.UTF-8"
       LANG: "en_US.UTF-8"
