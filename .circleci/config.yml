@@ -33,6 +33,21 @@ commands:
           name: Set Ruby Version
           command:  echo "ruby-2.7.0" > ~/.ruby-version
 
+  initialize_git_configuration:
+    steps:
+      - add_ssh_keys
+      - run:
+          name: Set Git config
+          command: |
+            git config --global user.email "$GIT_AUTHOR_EMAIL"
+            git config --global user.name "$GIT_AUTHOR_NAME"
+            git config --global user.signingkey "$GIT_SIGNING_KEY"
+            git config --global commit.gpgsign true
+            export PRIVATE_KEY_FILE=`mktemp`
+            echo $GPG_PRIVATE_KEY | base64 -d > $PRIVATE_KEY_FILE
+            gpg --import $PRIVATE_KEY_FILE
+
+
   add_ssh_key:
     steps:
       - run:
@@ -48,8 +63,6 @@ commands:
           fingerprints:
             - "2a:e6:ed:7c:3b:61:f5:05:9a:d1:82:5f:38:21:5d:94"
       - set_ruby_version
-
-
 
 jobs:
   postman_test_data:
@@ -92,11 +105,7 @@ jobs:
   assemble_freeletics_ios_alpha:
     executor: macos
     steps:
-      - run:
-          name: Github creds
-          command: printf "protocol=https\\nhost=github.com\\nusername=%s\\npassword=%s\\n" \
-            "$GITHUB_USER" "$GITHUB_TOKEN" \
-            | git credential-osxkeychain store
+      - initialize_git_configuration
       - run:
           no_output_timeout: 40m
           name: Assemble alpha
