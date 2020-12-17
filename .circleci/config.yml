@@ -3,12 +3,6 @@ version: 2.1
 
 bundler_version: &bundler_version "2.1.4"
 bundler_path: &bundler_path vendor/bundle/2.7
-bundler_extensions_path: &bundler_extensions_path vendor/bundle/2.7/ruby/2.7.0
-pr_gemlock_file: &gemlock_file '"Gemfile.lock"'
-pr_gemcache_native_version: &pr_gemcache_native_version v7
-pr_gemcache_native_modifier: &pr_gemcache_native_modifier pr
-pr_gemcache_native_platform: &pr_gemcache_native_platform universal-darwin-19
-git_cache_version: &git_cache_version v6
 working_directory: &working_directory /Users/distiller/project
 
 
@@ -141,23 +135,32 @@ jobs:
             bundle install
             bundle exec fastlane build_ipa
             bundle exec pod install
+            pwd
             ls
       - persist_to_workspace:
-          root: /Users/distiller/project
+          root: fl-application-ios/
           paths:
             - Freeletics.ipa
       - store_artifacts:
-          path: Freeletics.ipa
+          path: fl-application-ios/Freeletics.ipa
           destination: ipa/Freeletics.ipa
 
 
-  upload_apk_to_kobiton:
+  upload_apk_to_kobiton_and:
    executor: android_small
    steps:
       - checkout
       - attach_workspace:
           at: .
-      - run: ./scripts/upload_kobiton
+      - run: ./scripts/upload_kobiton "apk" "app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk"
+
+   upload_apk_to_kobiton_ios:
+     executor: android_small
+     steps:
+       - checkout
+       - attach_workspace:
+           at: .
+       - run: ./scripts/upload_kobiton "ipa" "fl-application-ios/Freeletics.ipa"
 
   run_appium_tests_android:
     working_directory: /home/circleci/repo
@@ -220,12 +223,12 @@ workflows:
     jobs:
       - postman_test_data
       - assemble_freeletics_android_release
-      - upload_apk_to_kobiton:
+      - upload_apk_to_kobiton_and:
           requires:
             - assemble_freeletics_android_release
       - run_appium_tests_android:
           requires:
-            - upload_apk_to_kobiton
+            - upload_apk_to_kobiton_and
 
   run_appium_tests_ios_pull:
     jobs:
@@ -234,4 +237,6 @@ workflows:
             - "fl-shared-jenkins Github"
             - "iOS"
             - "Commit Signing"
-
+      - upload_apk_to_kobiton_ios:
+          requires:
+            - assemble_freeletics_ios_alpha
