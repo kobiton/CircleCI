@@ -123,7 +123,7 @@ jobs:
           no_output_timeout: 40m
           name: Assemble alpha
           command: |
-            git clone git@github.com:freeletics/fl-application-ios.git
+            git clone -b develop git@github.com:freeletics/fl-application-ios.git
             cd fl-application-ios
             bundle install
             bundle exec fastlane build_ipa
@@ -133,8 +133,8 @@ jobs:
           paths:
             - Freeletics.ipa
       - store_artifacts:
-          path: fl-application-android/app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
-          destination: apks/freeletics-stagingApi-release.apk
+          path: .
+          destination: ipa/freeletics-alpha.ipa
 
 
   upload_apk_to_kobiton:
