@@ -154,13 +154,13 @@ jobs:
           at: .
       - run: ./scripts/upload_kobiton "apk" "app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk"
 
-   upload_apk_to_kobiton_ios:
-     executor: android_small
-     steps:
-       - checkout
-       - attach_workspace:
-           at: .
-       - run: ./scripts/upload_kobiton "ipa" "fl-application-ios/Freeletics.ipa"
+  upload_apk_to_kobiton_ios:
+    executor: android_small
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: ./scripts/upload_kobiton "ipa" "fl-application-ios/Freeletics.ipa"
 
   run_appium_tests_android:
     working_directory: /home/circleci/repo
