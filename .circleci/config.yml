@@ -11,35 +11,38 @@ pr_gemcache_native_platform: &pr_gemcache_native_platform universal-darwin-19
 git_cache_version: &git_cache_version v6
 working_directory: &working_directory /Users/distiller/project
 
+
+
+orbs:
+  prepare-workflow: freeletics/prepare-mobile-workflow@1.7.0
+
 executors:
   android_large:
     resource_class: large
     docker:
       - image: freeletics/android-sdk:1.4
+
   android_small:
     resource_class: small
     docker:
       - image: freeletics/android-sdk:1.4
+
+  macos:
+    parameters:
+      resource_class:
+        type: string
+        default: medium
     macos:
-      parameters:
-        resource_class:
-          type: string
-          default: medium
-      macos:
-        xcode: 12.2.0
-      resource_class: << parameters.resource_class >>
-      shell: /bin/bash --login -eo pipefail
-      working_directory: *working_directory
-      environment:
-        LC_ALL: "en_US.UTF-8"
-        LANG: "en_US.UTF-8"
-        HOMEBREW_NO_AUTO_UPDATE: 1
-        BUNDLER_VERSION: *bundler_version
-        BUNDLE_PATH: *bundler_path
-
-
-orbs:
-  prepare-workflow: freeletics/prepare-mobile-workflow@1.7.0
+      xcode: 12.2.0
+    resource_class: << parameters.resource_class >>
+    shell: /bin/bash --login -eo pipefail
+    working_directory: *working_directory
+    environment:
+      LC_ALL: "en_US.UTF-8"
+      LANG: "en_US.UTF-8"
+      HOMEBREW_NO_AUTO_UPDATE: 1
+      BUNDLER_VERSION: *bundler_version
+      BUNDLE_PATH: *bundler_path
 
 
 commands:
