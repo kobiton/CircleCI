@@ -88,13 +88,6 @@ commands:
           fingerprints:
             - "2a:e6:ed:7c:3b:61:f5:05:9a:d1:82:5f:38:21:5d:94"
       - set_ruby_version
-      - prepare-workflow/prepare-ios-job:
-          native_extensions_cache_version: *pr_gemcache_native_version
-          native-platform: *pr_gemcache_native_platform
-          native_extensions_cache_modifier: *pr_gemcache_native_modifier
-          gemlock_file: *gemlock_file
-          bundler_path: *bundler_extensions_path
-          bundler_version: *bundler_version
 
 jobs:
   postman_test_data:
@@ -140,9 +133,6 @@ jobs:
       - prepare_standalone_job
       - initialize_git_configuration
       - run:
-            name: Add key
-            command: echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
-      - run:
           no_output_timeout: 40m
           name: Assemble alpha
           command: |
@@ -150,6 +140,7 @@ jobs:
             cd fl-application-ios
             bundle install
             bundle exec fastlane build_ipa
+            bundle exec pod install
             ls
       - persist_to_workspace:
           root: /Users/distiller/project
