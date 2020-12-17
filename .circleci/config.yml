@@ -20,7 +20,6 @@ executors:
     resource_class: small
     docker:
       - image: freeletics/android-sdk:1.4
-  executors:
     macos:
       parameters:
         resource_class:
