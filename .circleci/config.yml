@@ -1,6 +1,16 @@
 version: 2.1
 
+
+bundler_version: &bundler_version "2.1.4"
+bundler_path: &bundler_path vendor/bundle/2.7
+bundler_extensions_path: &bundler_extensions_path vendor/bundle/2.7/ruby/2.7.0
+pr_gemlock_file: &gemlock_file '"Gemfile.lock"'
+pr_gemcache_native_version: &pr_gemcache_native_version v7
+pr_gemcache_native_modifier: &pr_gemcache_native_modifier pr
+pr_gemcache_native_platform: &pr_gemcache_native_platform universal-darwin-19
 git_cache_version: &git_cache_version v6
+working_directory: &working_directory /Users/distiller/project
+
 executors:
   android_large:
     resource_class: large
@@ -10,24 +20,28 @@ executors:
     resource_class: small
     docker:
       - image: freeletics/android-sdk:1.4
-  macos:
-    parameters:
-      resource_class:
-        type: string
-        default: medium
+  executors:
     macos:
-      xcode: 11.7.0
-    resource_class: << parameters.resource_class >>
-    shell: /bin/bash --login -eo pipefail
-    working_directory: /Users/distiller/project
+      parameters:
+        resource_class:
+          type: string
+          default: medium
+      macos:
+        xcode: 12.2.0
+      resource_class: << parameters.resource_class >>
+      shell: /bin/bash --login -eo pipefail
+      working_directory: *working_directory
+      environment:
+        LC_ALL: "en_US.UTF-8"
+        LANG: "en_US.UTF-8"
+        HOMEBREW_NO_AUTO_UPDATE: 1
+        BUNDLER_VERSION: *bundler_version
+        BUNDLE_PATH: *bundler_path
 
-    environment:
-      LC_ALL: "en_US.UTF-8"
-      LANG: "en_US.UTF-8"
-      HOMEBREW_NO_AUTO_UPDATE: 1
 
 orbs:
   prepare-workflow: freeletics/prepare-mobile-workflow@1.7.0
+
 
 commands:
   set_ruby_version:
@@ -72,6 +86,13 @@ commands:
           fingerprints:
             - "2a:e6:ed:7c:3b:61:f5:05:9a:d1:82:5f:38:21:5d:94"
       - set_ruby_version
+      - prepare-workflow/prepare-ios-job:
+          native_extensions_cache_version: *pr_gemcache_native_version
+          native-platform: *pr_gemcache_native_platform
+          native_extensions_cache_modifier: *pr_gemcache_native_modifier
+          gemlock_file: *gemlock_file
+          bundler_path: *bundler_extensions_path
+          bundler_version: *bundler_version
 
 jobs:
   postman_test_data:
@@ -133,8 +154,8 @@ jobs:
           paths:
             - Freeletics.ipa
       - store_artifacts:
-          path: .
-          destination: ipa/freeletics-alpha.ipa
+          path: Freeletics.ipa
+          destination: ipa/Freeletics.ipa
 
 
   upload_apk_to_kobiton:
