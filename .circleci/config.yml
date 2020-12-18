@@ -160,7 +160,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: ./scripts/upload_kobiton "ipa" "/Users/distiller/project/fl-application-ios/Freeletics.ipa"
+      - pwd
+      - ls
+      - run: ./scripts/upload_kobiton "ipa" "Freeletics.ipa"
 
   run_appium_tests_android:
     working_directory: /home/circleci/repo
@@ -208,7 +210,6 @@ jobs:
             apt-get -y update && apt-get -y install git
             git clone git@github.com:freeletics/Appium_e2e_tests.git
             cd Appium_e2e_tests
-
       - run:
           no_output_timeout: 50m
           name: "Parse environment file containing the test data from postman and run tests"
