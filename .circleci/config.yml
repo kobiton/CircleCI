@@ -229,13 +229,18 @@ workflows:
   run_appium_tests_android_pull:
     jobs:
       - postman_test_data
+      - assemble_freeletics_android_release
+      - upload_apk_to_kobiton_and:
+          - requires: assemble_freeletics_android_release
       - run_appium_tests_android:
           requires:
             - postman_test_data
+            - upload_apk_to_kobiton_and
 
 
   run_appium_tests_ios_pull:
     jobs:
+      - postman_test_data
       - assemble_freeletics_ios_alpha:
           context:
             - "fl-shared-jenkins Github"
@@ -244,3 +249,7 @@ workflows:
       - upload_apk_to_kobiton_ios:
           requires:
             - assemble_freeletics_ios_alpha
+      - run_appium_tests_ios:
+          requires:
+            - upload_apk_to_kobiton_ios
+            - postman_test_data
