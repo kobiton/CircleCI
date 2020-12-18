@@ -173,11 +173,6 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: update app to kobiton
-          command: |
-            apt-get -y update && apt-get -y install jq
-            ./scripts/upload_kobiton apk app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
-      - run:
           name: "Adding Github ssh key."
           command: echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
       - run:
@@ -188,15 +183,14 @@ jobs:
             cd Appium_e2e_tests
       - run:
           no_output_timeout: 50m
-          name: "Parse environment file containing the test data from postman and run tests"
+          name: "Parse environment file containing the test data &update app to kobiton  and run tests"
           command: |
-            pwd
-            ls
             apt-get -y update && apt-get -y install jq
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
             echo "$EMAILS"
-            cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true
-            ./mvnw clean test -DCoachAdaptationTest,CheckAudioRecommendationsTest -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=${ID}
+            ./scripts/upload_kobiton apk app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
+            cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
+            ./mvnw clean test -DCoachAdaptationTest,CheckAudioRecommendationsTest -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
       - store_artifacts:
           path: ./target/surefire-reports
 
