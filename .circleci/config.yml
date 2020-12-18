@@ -172,10 +172,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-            name: "Adding Github ssh key."
-            command: echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
+          name: "Adding Github ssh key."
+          command: echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
       - run:
-          no_output_timeout: 50m
           name: "Checkout Appium test repo"
           command: |
             apt-get -y update && apt-get -y install git
@@ -185,6 +184,8 @@ jobs:
           no_output_timeout: 50m
           name: "Parse environment file containing the test data from postman and run tests"
           command: |
+            pwd
+            ls
             apt-get -y update && apt-get -y install jq
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
             echo "$EMAILS"
@@ -228,13 +229,8 @@ workflows:
   run_appium_tests_android_pull:
     jobs:
       - postman_test_data
-      - assemble_freeletics_android_release
-      - upload_apk_to_kobiton_and:
-          requires:
-            - assemble_freeletics_android_release
-      - run_appium_tests_android:
-          requires:
-            - upload_apk_to_kobiton_and
+      - run_appium_tests_android
+
 
   run_appium_tests_ios_pull:
     jobs:
