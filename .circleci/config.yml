@@ -229,7 +229,9 @@ workflows:
   run_appium_tests_android_pull:
     jobs:
       - postman_test_data
-      - run_appium_tests_android
+      - run_appium_tests_android:
+          requires:
+            - postman_test_data
 
 
   run_appium_tests_ios_pull:
