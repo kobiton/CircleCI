@@ -7,7 +7,7 @@ set -o pipefail
 echo "Getting the presigned url"
 
 export RESP=$(curl -XPOST -H "Authorization: Basic ${KOBITON_AUTH}" -H "Content-type: application/json" -d "{
-            \"filename\" : \"app-debug.{$1}}\"}" https://api.kobiton.com/v1/apps/uploadUrl)
+            \"filename\" : \"app-debug.$1}\"}" https://api.kobiton.com/v1/apps/uploadUrl)
 
 echo $$RESP
 # shellcheck disable=SC2091
