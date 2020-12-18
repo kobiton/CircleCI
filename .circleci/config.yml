@@ -145,25 +145,6 @@ jobs:
           path: fl-application-ios/Freeletics.ipa
           destination: ipa/Freeletics.ipa
 
-
-  upload_apk_to_kobiton_and:
-    executor: android_small
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run: ./scripts/upload_kobiton apk app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
-
-  upload_apk_to_kobiton_ios:
-    executor: android_small
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run: pwd
-      - run: ls
-      - run: ./scripts/upload_kobiton ipa Freeletics.ipa
-
   run_appium_tests_android:
     working_directory: /home/circleci/repo
     docker:
@@ -204,6 +185,7 @@ jobs:
     docker:
       - image: thenishant/appium
     steps:
+      - checkout
       - attach_workspace:
           at: .
       - add_ssh_keys
@@ -222,6 +204,12 @@ jobs:
           no_output_timeout: 50m
           name: "Parse environment file containing the test data from postman and run tests"
           command: |
+            ./scripts/upload_kobiton ipa Freeletics.ipa
+            export ID=$(curl https://api.kobiton.com/v1/apps \
+            -H "Authorization: Basic ${KOBITON_AUTH}" \
+            -H 'Content-Type: application/json' |
+            jq -r .apps[-1].id)''
+            echo $ID
             apt-get -y update && apt-get -y install jq
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
             echo "$EMAILS"
@@ -234,9 +222,7 @@ workflows:
   run_appium_tests_android_pull:
     jobs:
       - postman_test_data
-      - assemble_freeletics_android_release:
-          requires:
-            - postman_test_data
+      - assemble_freeletics_android_release
       - run_appium_tests_android:
           requires:
             - postman_test_data
@@ -252,10 +238,7 @@ workflows:
             - "fl-shared-jenkins Github"
             - "iOS"
             - "Commit Signing"
-      - upload_apk_to_kobiton_ios:
-          requires:
-            - assemble_freeletics_ios_alpha
       - run_appium_tests_ios:
           requires:
-            - upload_apk_to_kobiton_ios
             - postman_test_data
+            - assemble_freeletics_ios_alpha
