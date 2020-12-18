@@ -28,7 +28,7 @@ echo "Creating an upload on kobiton"
 curl -X POST https://api.kobiton.com/v1/apps \
   -H "Authorization: Basic ${KOBITON_AUTH}" \
   -H 'Content-Type: application/json' \
-  -d "{\"filename\" :  \"master.apk\", \"appPath\" :\"$appPath\"}"
+  -d "{\"filename\" :  \"upload.{$1}\", \"appPath\" :\"$appPath\"}"
 
 echo "Getting the new upload id"
 
