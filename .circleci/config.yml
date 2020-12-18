@@ -231,7 +231,8 @@ workflows:
       - postman_test_data
       - assemble_freeletics_android_release
       - upload_apk_to_kobiton_and:
-          - requires: assemble_freeletics_android_release
+          requires:
+            - assemble_freeletics_android_release
       - run_appium_tests_android:
           requires:
             - postman_test_data
