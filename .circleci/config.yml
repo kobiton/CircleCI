@@ -160,8 +160,8 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - pwd
-      - ls
+      - run: pwd
+      - rund: ls
       - run: ./scripts/upload_kobiton "ipa" "Freeletics.ipa"
 
   run_appium_tests_android:
