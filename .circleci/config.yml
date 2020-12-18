@@ -160,7 +160,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: ./scripts/upload_kobiton "ipa" "fl-application-ios/Freeletics.ipa"
+      - run: ./scripts/upload_kobiton "ipa" "/Users/distiller/project/fl-application-ios/Freeletics.ipa"
 
   run_appium_tests_android:
     working_directory: /home/circleci/repo
