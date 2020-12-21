@@ -203,6 +203,7 @@ jobs:
           no_output_timeout: 50m
           name: "Parse environment file containing the test data from postman and run tests"
           command: |
+            apt-get -y update && apt-get -y install jq
             ./scripts/upload_kobiton ipa Freeletics.ipa
             export ID=$(curl https://api.kobiton.com/v1/apps \
             -H "Authorization: Basic ${KOBITON_AUTH}" \
