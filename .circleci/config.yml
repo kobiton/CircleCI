@@ -224,7 +224,7 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - add_ssh_keys
+      - add_ssh_key
       - run:
           name: "Adding Github ssh key."
           command: |
