@@ -198,7 +198,7 @@ jobs:
             echo $ID
 
             cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
-            ./mvnw clean test -DCoachAdaptationTest,CheckAudioRecommendationsTest -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
+            ./mvnw clean test -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
 
       - store_artifacts:
           path: ./target/surefire-reports
