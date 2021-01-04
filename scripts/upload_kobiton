@@ -25,15 +25,10 @@ curl -T $2 \
 
 echo "Creating an upload on kobiton"
 
-curl -X POST https://api.kobiton.com/v1/apps \
+export ID=$(curl -X POST https://api.kobiton.com/v1/apps \
   -H "Authorization: Basic ${KOBITON_AUTH}" \
   -H 'Content-Type: application/json' \
-  -d "{\"filename\" :  \"upload.$1 \", \"appPath\" :\"$appPath\"}"
-
-echo "Getting the new upload id"
-
-export ID=$(curl https://api.kobiton.com/v1/apps \
-  -H "Authorization: Basic ${KOBITON_AUTH}" \
-  -H 'Content-Type: application/json' |
-  jq -r .apps[-1].id)''
+  -d "{\"filename\" :  \"upload.$1 \", \"appPath\" :\"$appPath\"}" |
+  jq -r .appId
+  )
 echo $ID
