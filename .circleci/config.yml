@@ -172,7 +172,7 @@ jobs:
             echo "Getting the presigned url"
 
             export RESP=$(curl -XPOST -H "Authorization: Basic ${KOBITON_AUTH}" -H "Content-type: application/json" -d "{
-                        \"filename\" : \"upload.apk\"}" https://api.kobiton.com/v1/apps/uploadUrl)
+                        \"filename\" : \"upload_new.apk\"}" https://api.kobiton.com/v1/apps/uploadUrl)
 
             echo $$RESP
             $(echo $RESP | jq -r 'keys[] as $k | "export \($k)=\(.[$k])"')
@@ -192,7 +192,7 @@ jobs:
             export ID=$(curl -X POST https://api.kobiton.com/v1/apps \
               -H "Authorization: Basic ${KOBITON_AUTH}" \
               -H 'Content-Type: application/json' \
-              -d "{\"filename\" :  \"upload.apk \", \"appPath\" :\"$appPath\"}" |
+              -d "{\"filename\" :  \"upload_new.apk \", \"appPath\" :\"$appPath\"}" |
               jq -r .appId
               )
             echo $ID
