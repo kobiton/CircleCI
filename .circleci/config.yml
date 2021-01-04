@@ -169,8 +169,15 @@ jobs:
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
             echo "$EMAILS"
             ./scripts/upload_kobiton apk app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
-            echo "Get id from script"
+
+            export ID=$(curl -X POST https://api.kobiton.com/v1/apps \
+              -H "Authorization: Basic ${KOBITON_AUTH}" \
+              -H 'Content-Type: application/json' \
+              -d "{\"filename\" :  \"upload.apk \", \"appPath\" :\"$appPath\"}" |
+              jq -r .appId
+              )
             echo $ID
+
             cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
             ./mvnw clean test -DCoachAdaptationTest,CheckAudioRecommendationsTest -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
       - store_artifacts:
@@ -202,10 +209,12 @@ jobs:
           command: |
             apt-get -y update && apt-get -y install jq
             ./scripts/upload_kobiton ipa Freeletics.ipa
-            export ID=$(curl https://api.kobiton.com/v1/apps \
-            -H "Authorization: Basic ${KOBITON_AUTH}" \
-            -H 'Content-Type: application/json' |
-            jq -r .apps[-1].id)''
+            export ID=$(curl -X POST https://api.kobiton.com/v1/apps \
+              -H "Authorization: Basic ${KOBITON_AUTH}" \
+              -H 'Content-Type: application/json' \
+              -d "{\"filename\" :  \"upload.ipa \", \"appPath\" :\"$appPath\"}" |
+              jq -r .appId
+              )
             echo $ID
             apt-get -y update && apt-get -y install jq
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)

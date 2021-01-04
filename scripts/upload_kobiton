@@ -24,11 +24,3 @@ curl -T $2 \
   -X PUT $url
 
 echo "Creating an upload on kobiton"
-
-export ID=$(curl -X POST https://api.kobiton.com/v1/apps \
-  -H "Authorization: Basic ${KOBITON_AUTH}" \
-  -H 'Content-Type: application/json' \
-  -d "{\"filename\" :  \"upload.$1 \", \"appPath\" :\"$appPath\"}" |
-  jq -r .appId
-  )
-echo $ID
