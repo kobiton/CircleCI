@@ -229,7 +229,33 @@ jobs:
           name: "Parse environment file containing the test data from postman and run tests"
           command: |
             apt-get -y update && apt-get -y install jq
-            ./scripts/upload_kobiton ipa Freeletics.ipa
+
+            echo "Getting the presigned url"
+            export RESP=$(curl -XPOST -H "Authorization: Basic ${KOBITON_AUTH}" -H "Content-type: application/json" -d "{
+                                   \"filename\" : \"upload_new.ipa\"}" https://api.kobiton.com/v1/apps/uploadUrl)
+
+            echo $$RESP
+            $(echo $RESP | jq -r 'keys[] as $k | "export \($k)=\(.[$k])"')
+
+            echo $url
+            echo $appPath
+
+            echo "Uploading to s3 bucket"
+
+            curl -T Freeletics.ipa\
+               -H "Content-Type: application/octet-stream" \
+               -H "x-amz-tagging: unsaved=true" \
+               -X PUT $url
+
+            echo "Creating an upload on kobiton"
+
+            export ID=$(curl -X POST https://api.kobiton.com/v1/apps \
+              -H "Authorization: Basic ${KOBITON_AUTH}" \
+              -H 'Content-Type: application/json' \
+              -d "{\"filename\" :  \"upload_new.ipa \", \"appPath\" :\"$appPath\"}" |
+              jq -r .appId
+               )
+              echo $ID
 
             apt-get -y update && apt-get -y install jq
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
