@@ -196,9 +196,9 @@ jobs:
               jq -r .appId
               )
             echo $ID
-
+            apt-get -y update && apt-get -y install git
             cd Appium_e2e_tests
-            git-branch 
+            git checkout payment_enabled
             ./mvnw clean test -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
             ls
             cd target
@@ -263,8 +263,10 @@ jobs:
             apt-get -y update && apt-get -y install jq
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
             echo "$EMAILS"
+
+            apt-get -y update && apt-get -y install git
             cd Appium_e2e_tests
-            git-branch
+            git checkout payment_enabled
             ./mvnw clean test -Dapp.os=IOS -Demails=${EMAILS} -Dis.kobiton=true -Dapp.ios=${ID}
 
   postman_delete_data:
