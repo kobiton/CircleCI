@@ -141,8 +141,8 @@ jobs:
           paths:
             - Freeletics.ipa
       - store_artifacts:
-          path: fl-application-ios/Freeletics.ipa
-          destination: ipa/Freeletics.ipa
+          paths:
+            - fl-application-ios/Freeletics.ipa
 
   run_appium_tests_android:
     working_directory: /home/circleci/repo
@@ -200,9 +200,11 @@ jobs:
 
             cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
             ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
+            ls
 
       - store_artifacts:
-          path: ./target/surefire-reports
+          paths:
+            - /target/surefire-reports
 
   run_appium_tests_ios:
     working_directory: /home/circleci/repo
