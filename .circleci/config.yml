@@ -202,8 +202,7 @@ jobs:
             ls
 
       - store_artifacts:
-          paths:
-            - /target/surefire-reports
+          path: /target/surefire-reports
 
   run_appium_tests_ios:
     working_directory: /home/circleci/repo
