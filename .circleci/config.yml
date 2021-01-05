@@ -261,8 +261,8 @@ jobs:
             apt-get -y update && apt-get -y install jq
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
             echo "$EMAILS"
-            cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=IOS -Demails=${EMAILS} -Dis.kobiton=true
-            ./mvnw clean install -Dapp.os=IOS -Demails=${EMAILS} -Dis.kobiton=true -Dapp.ios=${ID}
+            cd Appium_e2e_tests
+            ./mvnw clean test -Dapp.os=IOS -Demails=${EMAILS} -Dis.kobiton=true -Dapp.ios=${ID}
 
   postman_delete_data:
     docker:
