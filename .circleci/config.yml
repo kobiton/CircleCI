@@ -203,7 +203,7 @@ jobs:
             cd target
 
       - store_artifacts:
-          path: /target/surefire-reports
+          path: /target/surefire-reports/
 
   run_appium_tests_ios:
     working_directory: /home/circleci/repo
@@ -225,6 +225,7 @@ jobs:
             apt-get -y update && apt-get -y install git
             git clone git@github.com:freeletics/Appium_e2e_tests.git
             cd Appium_e2e_tests
+            git checkout payment_enabled
       - run:
           no_output_timeout: 50m
           name: "Parse environment file containing the test data from postman and run tests"
