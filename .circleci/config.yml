@@ -204,7 +204,7 @@ jobs:
             cd target
 
       - store_artifacts:
-          path: /target/surefire-reports/
+          path: /target/surefire-reports
 
   run_appium_tests_ios:
     working_directory: /home/circleci/repo
@@ -264,7 +264,6 @@ jobs:
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
             echo "$EMAILS"
 
-            apt-get -y update && apt-get -y install git
             cd Appium_e2e_tests
             git checkout payment_enabled
             ./mvnw clean test -Dapp.os=IOS -Demails=${EMAILS} -Dis.kobiton=true -Dapp.ios=${ID}
