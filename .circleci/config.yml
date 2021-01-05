@@ -141,8 +141,7 @@ jobs:
           paths:
             - Freeletics.ipa
       - store_artifacts:
-          paths:
-            - fl-application-ios/Freeletics.ipa
+          path: fl-application-ios/Freeletics.ipa
 
   run_appium_tests_android:
     working_directory: /home/circleci/repo
