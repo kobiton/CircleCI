@@ -169,6 +169,12 @@ jobs:
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
             echo "$EMAILS"
 
+            echo "Delete the old app version. otherwise kobiton doesnt work"
+
+            export DELETEID=$(curl -X GET https://api.kobiton.com/v1/apps -H "Authorization: Basic ${KOBITON_AUTH}"  -H 'Accept: application/json' | jq -c '.apps[] | select (.os =="ANDROID") | .versions[].id')
+            echo $DELETEID
+            curl -X DELETE https://api.kobiton.com/v1/app/versions/$DELETEID -H "Authorization: Basic ${KOBITON_AUTH}"
+
             echo "Getting the presigned url"
 
             export RESP=$(curl -XPOST -H "Authorization: Basic ${KOBITON_AUTH}" -H "Content-type: application/json" -d "{
@@ -239,6 +245,10 @@ jobs:
 
             echo $$RESP
             $(echo $RESP | jq -r 'keys[] as $k | "export \($k)=\(.[$k])"')
+
+            export DELETEID=$(curl -X GET https://api.kobiton.com/v1/apps -H "Authorization: Basic ${KOBITON_AUTH}"  -H 'Accept: application/json' | jq -c '.apps[] | select (.os =="IOS") | .versions[].id')
+            echo $DELETEID
+            curl -X DELETE https://api.kobiton.com/v1/app/versions/$DELETEID -H "Authorization: Basic ${KOBITON_AUTH}"
 
             echo $url
             echo $appPath
