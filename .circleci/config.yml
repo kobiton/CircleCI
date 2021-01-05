@@ -197,8 +197,8 @@ jobs:
               )
             echo $ID
 
-            cd Appium_e2e_tests && ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
-            ./mvnw clean install -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
+            cd Appium_e2e_tests
+            ./mvnw clean test -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
             ls
             cd target
 
