@@ -198,6 +198,7 @@ jobs:
             echo $ID
 
             cd Appium_e2e_tests
+            git-branch 
             ./mvnw clean test -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
             ls
             cd target
@@ -263,6 +264,7 @@ jobs:
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
             echo "$EMAILS"
             cd Appium_e2e_tests
+            git-branch
             ./mvnw clean test -Dapp.os=IOS -Demails=${EMAILS} -Dis.kobiton=true -Dapp.ios=${ID}
 
   postman_delete_data:
