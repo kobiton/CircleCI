@@ -160,7 +160,6 @@ jobs:
             apt-get -y update && apt-get -y install git
             git clone git@github.com:freeletics/Appium_e2e_tests.git
             cd Appium_e2e_tests
-            git checkout payment_enabled
       - run:
           no_output_timeout: 50m
           name: "Parse environment file containing the test data &update app to kobiton  and run tests"
