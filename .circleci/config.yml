@@ -132,7 +132,7 @@ jobs:
             git clone git@github.com:freeletics/fl-application-ios.git
             cd fl-application-ios
             bundle install
-            bundle exec fastlane build_ipa
+            bundle exec fastlane create_adhoc_build
             bundle exec pod install
             pwd
             ls
