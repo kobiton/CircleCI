@@ -40,6 +40,16 @@ executors:
 
 
 commands:
+  populate_app_store_connect_api_auth_key:
+    steps:
+      - run:
+          name: Populate AppStoreConnect API Auth Key
+          # Create temporary .p8 file that is then read by fastlane, by this we don't expose the private key info in the iOS repo
+          command: |
+            echo 'export APPSTORECONNECT_API_PRIVATE_KEY_FILE=/tmp/appstoreconnect_authkey.p8' >> $BASH_ENV
+            source $BASH_ENV
+            echo $APPSTORECONNECT_API_PRIVATE_KEY > $APPSTORECONNECT_API_PRIVATE_KEY_FILE
+            
   set_ruby_version:
     steps:
       - run:
@@ -125,6 +135,7 @@ jobs:
     executor: macos
     steps:
       - initialize_git_configuration
+      - populate_app_store_connect_api_auth_key
       - run:
           no_output_timeout: 40m
           name: Assemble alpha
