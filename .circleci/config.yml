@@ -339,9 +339,6 @@ workflows:
           requires:
             - run_appium_tests_android
 
-
-
-
   run_appium_tests_ios_pull:
     triggers:
       - schedule:
