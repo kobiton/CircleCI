@@ -323,7 +323,7 @@ workflows:
   run_appium_tests_android_pull:
     triggers:
       - schedule:
-          cron: "0 3 * * *"
+          cron: "0 0,3,5,8 * * *"
           filters:
             branches:
               only:
@@ -342,7 +342,7 @@ workflows:
   run_appium_tests_ios_pull:
     triggers:
       - schedule:
-          cron: "0 3 * * *"
+          cron: "0 0,3,5,8 * * *"
           filters:
             branches:
               only:
