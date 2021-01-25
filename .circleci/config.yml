@@ -49,7 +49,7 @@ commands:
             echo 'export APPSTORECONNECT_API_PRIVATE_KEY_FILE=/tmp/appstoreconnect_authkey.p8' >> $BASH_ENV
             source $BASH_ENV
             echo $APPSTORECONNECT_API_PRIVATE_KEY > $APPSTORECONNECT_API_PRIVATE_KEY_FILE
-            
+
   set_ruby_version:
     steps:
       - run:
@@ -322,6 +322,13 @@ workflows:
   version: 2
 
   run_appium_tests_android_pull:
+    triggers:
+      - schedule:
+          cron: "0 */3 * * *"
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - postman_test_data
       - assemble_freeletics_android_release
@@ -335,7 +342,15 @@ workflows:
 
 
 
+
   run_appium_tests_ios_pull:
+    triggers:
+      - schedule:
+          cron: "0 */3 * * *"
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - postman_test_data
       - assemble_freeletics_ios_alpha:
