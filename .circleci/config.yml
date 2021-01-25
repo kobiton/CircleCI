@@ -135,7 +135,6 @@ jobs:
     executor: macos
     steps:
       - initialize_git_configuration
-      - populate_app_store_connect_api_auth_key
       - run:
           no_output_timeout: 40m
           name: Assemble alpha
@@ -358,6 +357,7 @@ workflows:
             - "fl-shared-jenkins Github"
             - "iOS"
             - "Commit Signing"
+            - "app_store_connect_api"
       - run_appium_tests_ios:
           requires:
             - postman_test_data
