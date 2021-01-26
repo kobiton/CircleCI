@@ -298,6 +298,9 @@ jobs:
     docker:
       - image: thenishant/appium
     steps:
+      - checkout
+      - attach_workspace:
+          at: .
       - add_ssh_keys
       - run:
           name: "Adding Github ssh key."
