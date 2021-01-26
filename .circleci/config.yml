@@ -212,6 +212,7 @@ jobs:
               jq -r .appId
               )
             echo $ID
+
             apt-get -y update && apt-get -y install git
             cd Appium_e2e_tests
             git checkout payment_enabled
@@ -248,6 +249,10 @@ jobs:
           name: "Parse environment file containing the test data from postman and run tests"
           command: |
             apt-get -y update && apt-get -y install jq
+
+            apt-get -y update && apt-get -y install jq
+            $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
+            echo "$EMAILS"
 
             echo "Getting the presigned url"
             export RESP=$(curl -XPOST -H "Authorization: Basic ${KOBITON_AUTH}" -H "Content-type: application/json" -d "{
@@ -288,6 +293,36 @@ jobs:
             git checkout payment_enabled
             ./mvnw clean test -Dapp.os=IOS -Demails=${EMAILS} -Dis.kobiton=true -Dapp.ios=${ID}
 
+  run_appium_tests_only:
+    working_directory: /home/circleci/repo
+    docker:
+      - image: thenishant/appium
+    steps:
+      - add_ssh_keys
+      - run:
+          name: "Adding Github ssh key."
+          command: |
+            echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
+      - run:
+          no_output_timeout: 50m
+          name: "Checkout Appium test repo"
+          command: |
+            apt-get -y update && apt-get -y install git
+            git clone git@github.com:freeletics/Appium_e2e_tests.git
+            cd Appium_e2e_tests
+            git checkout payment_enabled
+      - run:
+          no_output_timeout: 50m
+          name: "Parse environment file containing the test data from postman and run tests"
+          command: |
+            apt-get -y update && apt-get -y install jq
+            $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
+            echo "$EMAILS"
+            cd Appium_e2e_tests
+            git checkout payment_enabled
+            ./mnw test -Dapp.os=IOS -Dis.kobiton=true -Demails=${EMAILS}
+             ./mnw test -Dapp.os=ANDROID -Dis.kobiton=true -Demails=${EMAILS}
+
   postman_delete_data:
     docker:
       - image: sirech/newman-executor:13.6
@@ -323,7 +358,7 @@ workflows:
   run_appium_tests_android_pull:
     triggers:
       - schedule:
-          cron: "0 0,3,5,8 * * *"
+          cron: "0 0 1 1 *"
           filters:
             branches:
               only:
@@ -342,7 +377,7 @@ workflows:
   run_appium_tests_ios_pull:
     triggers:
       - schedule:
-          cron: "0 0,3,5,8 * * *"
+          cron: "0 0 1 1 *"
           filters:
             branches:
               only:
@@ -362,3 +397,13 @@ workflows:
       - postman_delete_data:
           requires:
             - run_appium_tests_ios
+
+  test_flakyness_test:
+    jobs:
+      - postman_test_data
+      - run_appium_tests_only:
+          requires:
+            - postman_test_data
+      - postman_delete_data:
+          requires:
+            - run_appium_tests_only
