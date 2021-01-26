@@ -440,7 +440,7 @@ workflows:
             - postman_test_data
       - postman_delete_data:
           requires:
-            - run_appium_tests_only
+            - run_appium_tests_only_and
 
   test_flakyness_ios:
     jobs:
@@ -450,4 +450,4 @@ workflows:
             - postman_test_data
       - postman_delete_data:
           requires:
-            - run_appium_tests_only
+            - run_appium_tests_only_ios
