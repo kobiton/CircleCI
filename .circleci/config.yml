@@ -14,12 +14,12 @@ executors:
   android_large:
     resource_class: large
     docker:
-      - image: freeletics/android-sdk:1.4
+      - image: freeletics/android-sdk:1.5
 
   android_small:
     resource_class: small
     docker:
-      - image: freeletics/android-sdk:1.4
+      - image: freeletics/android-sdk:1.5
 
   macos:
     parameters:
