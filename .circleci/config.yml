@@ -11,8 +11,8 @@ orbs:
   prepare-workflow: freeletics/prepare-mobile-workflow@1.7.0
 
 executors:
-  android_large:
-    resource_class: large
+  android_xlarge:
+    resource_class: xlarge
     docker:
       - image: freeletics/android-sdk:1.5
 
@@ -113,7 +113,7 @@ jobs:
             - env.json
 
   assemble_freeletics_android_release:
-    executor: android_large
+    executor: android_xlarge
     steps:
       - add_ssh_key
       - run:
