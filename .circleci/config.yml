@@ -198,7 +198,7 @@ jobs:
 
             echo "Uploading to s3 bucket"
 
-            curl -T app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk\
+            curl -T app/freeletics/build/outputs/apk/integrationApi/release/freeletics-integrationApi-release.apk\
               -H "Content-Type: application/octet-stream" \
               -H "x-amz-tagging: unsaved=true" \
               -X PUT $url
