@@ -122,14 +122,14 @@ jobs:
           command: |
             git clone git@github.com:freeletics/fl-application-android.git
             cd fl-application-android
-            ./gradlew app:freeletics:assembleStagingApiRelease
+             ./gradlew -PincludeBuildProperties app:freeletics:assembleIntegrationApiRelease
       - persist_to_workspace:
           root: fl-application-android
           paths:
-            - app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
+            - app/freeletics/build/outputs/apk
       - store_artifacts:
-          path: fl-application-android/app/freeletics/build/outputs/apk/stagingApi/release/freeletics-stagingApi-release.apk
-          destination: apks/freeletics-stagingApi-release.apk
+          path: app/freeletics/build/outputs/apk/integrationApi/release/freeletics-integrationApi-release.apk
+          destination: apks/freeletics-integrationApi-release.apk
 
   assemble_freeletics_ios_alpha:
     executor: macos
