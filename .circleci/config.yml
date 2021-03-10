@@ -383,7 +383,7 @@ jobs:
           name: "Run collection"
           command: |
             cd postman-data-generator/appium_data
-            npx newman run cleanup_users.json  -d ../../data.json -e staging.postman_environment.json --export-environment env.json
+            npx newman run cleanup_users.json  -d ../../data.json -e integration.postman_environment.json --export-environment env.json
 
 
 workflows:
