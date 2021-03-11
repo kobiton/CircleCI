@@ -415,22 +415,3 @@ workflows:
           requires:
             - run_appium_tests_ios
 
-  test_flakyness_and:
-    jobs:
-      - postman_test_data
-      - run_appium_tests_only_and:
-          requires:
-            - postman_test_data
-      - postman_delete_data:
-          requires:
-            - run_appium_tests_only_and
-
-  test_flakyness_ios:
-    jobs:
-      - postman_test_data
-      - run_appium_tests_only_ios:
-          requires:
-            - postman_test_data
-      - postman_delete_data:
-          requires:
-            - run_appium_tests_only_ios
