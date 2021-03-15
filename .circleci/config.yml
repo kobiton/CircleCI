@@ -386,7 +386,14 @@ jobs:
 workflows:
   version: 2
 
-  run_appium_tests_android_pull:
+  run_appium_tests_android:
+    triggers:
+      - schedule:
+          cron: "0 5 * * 1-5" # 05:00 UTC = 07:00 CEST
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - postman_test_data
       - assemble_freeletics_android_release
@@ -398,7 +405,14 @@ workflows:
           requires:
             - run_appium_tests_android
 
-  run_appium_tests_ios_pull:
+  run_appium_tests_ios:
+    triggers:
+      - schedule:
+          cron: "0 5 * * 1-5" # 05:00 UTC = 07:00 CEST
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - postman_test_data
       - assemble_freeletics_ios_alpha:
