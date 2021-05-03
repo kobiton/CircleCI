@@ -167,7 +167,7 @@ jobs:
             apt-get -y update && apt-get -y install git
             git clone git@github.com:freeletics/Appium_e2e_tests.git
             cd Appium_e2e_tests
-            git checkout payment_enabled
+            git checkout master
       - run:
           no_output_timeout: 50m
           name: "Parse environment file containing the test data &update app to kobiton  and run tests"
@@ -212,7 +212,7 @@ jobs:
 
             apt-get -y update && apt-get -y install git
             cd Appium_e2e_tests
-            git checkout payment_enabled
+            git checkout master
             ./mvnw clean test -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
             ls
             cd target
@@ -240,7 +240,7 @@ jobs:
             apt-get -y update && apt-get -y install git
             git clone git@github.com:freeletics/Appium_e2e_tests.git
             cd Appium_e2e_tests
-            git checkout payment_enabled
+            git checkout master
       - run:
           no_output_timeout: 50m
           name: "Parse environment file containing the test data from postman and run tests"
@@ -287,7 +287,7 @@ jobs:
             echo "$EMAILS"
 
             cd Appium_e2e_tests
-            git checkout payment_enabled
+            git checkout master
             ./mvnw clean test -Dapp.os=IOS -Demails=${EMAILS} -Dis.kobiton=true -Dapp.ios=${ID}
 
   run_appium_tests_only_ios:
@@ -310,7 +310,7 @@ jobs:
             apt-get -y update && apt-get -y install git
             git clone git@github.com:freeletics/Appium_e2e_tests.git
             cd Appium_e2e_tests
-            git checkout payment_enabled
+            git checkout master
       - run:
           no_output_timeout: 50m
           name: "Parse environment file containing the test data from postman and run tests"
@@ -319,7 +319,7 @@ jobs:
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
             echo "$EMAILS"
             cd Appium_e2e_tests
-            git checkout payment_enabled
+            git checkout master
             ./mvnw clean test -Dapp.os=IOS -Demails=${EMAILS} -Dis.kobiton=true -Dapp.ios=234
 
   run_appium_tests_only_and:
@@ -342,7 +342,7 @@ jobs:
             apt-get -y update && apt-get -y install git
             git clone git@github.com:freeletics/Appium_e2e_tests.git
             cd Appium_e2e_tests
-            git checkout payment_enabled
+            git checkout master
       - run:
           no_output_timeout: 50m
           name: "Parse environment file containing the test data from postman and run tests"
@@ -351,7 +351,7 @@ jobs:
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
             echo "$EMAILS"
             cd Appium_e2e_tests
-            git checkout payment_enabled
+            git checkout master
             ./mvnw clean test -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.ios=234
 
   postman_delete_data:
