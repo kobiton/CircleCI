@@ -1,11 +1,8 @@
 version: 2.1
 
-
 bundler_version: &bundler_version "2.1.4"
 bundler_path: &bundler_path vendor/bundle/2.7
 working_directory: &working_directory /Users/distiller/project
-
-
 
 orbs:
   prepare-workflow: freeletics/prepare-mobile-workflow@1.7.0
@@ -28,7 +25,7 @@ executors:
         default: medium
     macos:
       xcode: 12.4.0
-    resource_class: << parameters.resource_class >>
+    resource_class: medium
     shell: /bin/bash --login -eo pipefail
     working_directory: *working_directory
     environment:
@@ -290,70 +287,6 @@ jobs:
             git checkout master
             ./mvnw clean test -Dapp.os=IOS -Demails=${EMAILS} -Dis.kobiton=true -Dapp.ios=${ID}
 
-  run_appium_tests_only_ios:
-    working_directory: /home/circleci/repo
-    docker:
-      - image: thenishant/appium
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - add_ssh_keys
-      - run:
-          name: "Adding Github ssh key."
-          command: |
-            echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
-      - run:
-          no_output_timeout: 50m
-          name: "Checkout Appium test repo"
-          command: |
-            apt-get -y update && apt-get -y install git
-            git clone git@github.com:freeletics/Appium_e2e_tests.git
-            cd Appium_e2e_tests
-            git checkout master
-      - run:
-          no_output_timeout: 50m
-          name: "Parse environment file containing the test data from postman and run tests"
-          command: |
-            apt-get -y update && apt-get -y install jq
-            $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
-            echo "$EMAILS"
-            cd Appium_e2e_tests
-            git checkout master
-            ./mvnw clean test -Dapp.os=IOS -Demails=${EMAILS} -Dis.kobiton=true -Dapp.ios=234
-
-  run_appium_tests_only_and:
-    working_directory: /home/circleci/repo
-    docker:
-      - image: thenishant/appium
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - add_ssh_keys
-      - run:
-          name: "Adding Github ssh key."
-          command: |
-            echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
-      - run:
-          no_output_timeout: 50m
-          name: "Checkout Appium test repo"
-          command: |
-            apt-get -y update && apt-get -y install git
-            git clone git@github.com:freeletics/Appium_e2e_tests.git
-            cd Appium_e2e_tests
-            git checkout master
-      - run:
-          no_output_timeout: 50m
-          name: "Parse environment file containing the test data from postman and run tests"
-          command: |
-            apt-get -y update && apt-get -y install jq
-            $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
-            echo "$EMAILS"
-            cd Appium_e2e_tests
-            git checkout master
-            ./mvnw clean test -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.ios=234
-
   postman_delete_data:
     docker:
       - image: sirech/newman-executor:13.6
@@ -389,7 +322,7 @@ workflows:
   run_appium_tests_android:
     triggers:
       - schedule:
-          cron: "0 6 * * 1-5" # 05:00 UTC = 07:00 CEST
+          cron: "0 5 * * 1-5" # 05:00 UTC = 07:00 CEST
           filters:
             branches:
               only:
@@ -406,13 +339,13 @@ workflows:
             - run_appium_tests_android
 
   run_appium_tests_ios:
-    # triggers:
-    #   - schedule:
-    #       cron: "0 5 * * 1-5" # 05:00 UTC = 07:00 CEST
-    #       filters:
-    #         branches:
-    #           only:
-    #             - master
+    triggers:
+      - schedule:
+          cron: "0 4 * * 1-5" # 05:00 UTC = 07:00 CEST
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - postman_test_data
       - assemble_freeletics_ios_alpha:
