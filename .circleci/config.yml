@@ -19,12 +19,8 @@ executors:
       - image: freeletics/android-sdk:1.5
 
   macos:
-    parameters:
-      resource_class:
-        type: string
-        default: medium
     macos:
-      xcode: 12.4.0
+      xcode: 12.5.0
     resource_class: medium
     shell: /bin/bash --login -eo pipefail
     working_directory: *working_directory
