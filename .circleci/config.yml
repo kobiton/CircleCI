@@ -9,7 +9,7 @@ orbs:
 
 executors:
   android_xlarge:
-    resource_class: xlarge
+    resource_class: 2xlarge
     docker:
       - image: freeletics/android-sdk:1.5
 
