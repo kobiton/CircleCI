@@ -115,7 +115,7 @@ jobs:
           command: |
             git clone git@github.com:freeletics/fl-application-android.git
             cd fl-application-android
-            cp blob/master/config/ci/release/gradle.properties ~/.gradle/gradle.properties
+            cp config/ci/release/gradle.properties ~/.gradle/gradle.properties
              ./gradlew app:freeletics:assembleIntegrationApiRelease
       - persist_to_workspace:
           root: fl-application-android
@@ -336,13 +336,13 @@ workflows:
             - run_appium_tests_android
 
   run_appium_tests_ios:
-    # triggers:
-    #   - schedule:
-    #       cron: "0 4 * * 1-5" # 05:00 UTC = 07:00 CEST
-    #       filters:
-    #         branches:
-    #           only:
-    #             - master
+    triggers:
+      - schedule:
+          cron: "0 4 * * 1-5" # 05:00 UTC = 07:00 CEST
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - postman_test_data
       - assemble_freeletics_ios_alpha:
