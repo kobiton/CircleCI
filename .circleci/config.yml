@@ -9,12 +9,7 @@ orbs:
 
 executors:
   android_xlarge:
-    resource_class: 2xlarge
-    docker:
-      - image: freeletics/android-sdk:1.5
-
-  android_small:
-    resource_class: small
+    resource_class: xlarge
     docker:
       - image: freeletics/android-sdk:1.5
 
@@ -30,7 +25,6 @@ executors:
       HOMEBREW_NO_AUTO_UPDATE: 1
       BUNDLER_VERSION: *bundler_version
       BUNDLE_PATH: *bundler_path
-
 
 commands:
   populate_app_store_connect_api_auth_key:
