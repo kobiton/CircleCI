@@ -201,11 +201,6 @@ jobs:
             ./mvnw clean test -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
             ls
             cd target
-
-      - store_artifacts:
-          path: /target/surefire-reports
-
-#deletion
       - run:
           name: "Install Newman"
           command: npm install -g newman
@@ -221,6 +216,9 @@ jobs:
           command: |
             cd postman-data-generator/appium_data
             npx newman run cancel_subscription_from_real_store.postman_collection.json -d ../../data.json -e integration.postman_environment.json --export-environment env.json
+            echo "After run cancel_subscription_from_real_store"
+      - store_artifacts:
+          path: /target/surefire-reports
 
 
 
@@ -375,13 +373,13 @@ workflows:
             - run_appium_tests_android
 
   run_appium_tests_ios:
-    # triggers:
-    #   - schedule:
-    #       cron: "0 4 * * 1-5" # 05:00 UTC = 07:00 CEST
-    #       filters:
-    #         branches:
-    #           only:
-    #             - master
+    triggers:
+      - schedule:
+          cron: "0 4 * * 1-5" # 05:00 UTC = 07:00 CEST
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - postman_test_data
       - assemble_freeletics_ios_alpha:
