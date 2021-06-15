@@ -354,13 +354,13 @@ workflows:
             - run_appium_tests_android
 
   run_appium_tests_ios:
-    # triggers:
-    #   - schedule:
-    #       cron: "0 4 * * 1-5" # 05:00 UTC = 07:00 CEST
-    #       filters:
-    #         branches:
-    #           only:
-    #             - master
+    triggers:
+      - schedule:
+          cron: "0 4 * * 1-5" # 05:00 UTC = 07:00 CEST
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - postman_test_data
       - assemble_freeletics_ios_alpha:
@@ -376,3 +376,14 @@ workflows:
       - postman_delete_data:
           requires:
             - run_appium_tests_ios
+
+  cancel_subscriptions:
+    # triggers:
+    #   - schedule:
+    #       cron: "0 4 * * 1-5" # 05:00 UTC = 07:00 CEST
+    #       filters:
+    #         branches:
+    #           only:
+    #             - master
+    jobs:
+      - postman_cancel_subscriptions   
