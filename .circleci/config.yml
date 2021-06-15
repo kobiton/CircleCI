@@ -109,6 +109,7 @@ jobs:
           command: |
             git clone git@github.com:freeletics/fl-application-android.git
             cd fl-application-android
+            mkdir -p ~/.gradle
             cp config/ci/release/gradle.properties ~/.grade/gradle.properties
              ./gradlew app:freeletics:assembleIntegrationApiRelease
       - persist_to_workspace:
