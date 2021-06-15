@@ -205,6 +205,27 @@ jobs:
       - store_artifacts:
           path: /target/surefire-reports
 
+#deletion
+      - run:
+          name: "Install Newman"
+          command: npm install -g newman
+      - run:
+          name: "Checkout Postman data creation repo"
+          command: git clone git@github.com:freeletics/postman-data-generator.git
+      - run:
+          name: "Get user data to delete subscriptions"
+          command: |
+            jq '.values | [ (.[1].value / ","), (.[2].value / ",") ] | transpose | map({email_registered: .[0], id: .[1]})' env.json > data.json
+      - run:
+          name: "Run collection"
+          command: |
+            cd postman-data-generator/appium_data
+            npx newman run cancel_subscription_from_real_store.postman_collection.json -d ../../data.json -e integration.postman_environment.json --export-environment env.json
+
+
+
+          
+
   run_appium_tests_ios:
     working_directory: /home/circleci/repo
     docker:
