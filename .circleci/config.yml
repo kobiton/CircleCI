@@ -8,11 +8,6 @@ orbs:
   prepare-workflow: freeletics/prepare-mobile-workflow@1.14.0
 
 executors:
-  android_xlarge:
-    resource_class: xlarge
-    docker:
-      - image: freeletics/android-sdk:1.5
-
   macos:
     macos:
       xcode: 12.5.0
@@ -100,19 +95,19 @@ jobs:
             - env.json
 
   assemble_freeletics_android_release:
-    executor: android_xlarge
+    executor:
+      name: prepare-workflow/android-large
     steps:
       - add_ssh_key
       - run:
-          no_output_timeout: 20m
-          name: Assemble release
+          no_output_timeout: 15m
+          name: "Build Android app"
           command: |
             git clone git@github.com:freeletics/fl-application-android.git
             cd fl-application-android
             mkdir -p ~/.gradle
-            cp config/ci/release/gradle.properties ~/.gradle/gradle.properties 
-            ./gradlew --continue -PincludeBuildProperties assembleForEnvironment -Penvironment=integration -PbuildType=release
-#            ./gradlew app:freeletics:assembleIntegrationApiRelease
+            cp config/ci/release/gradle.properties ~/.gradle/gradle.properties
+            ./gradlew app:freeletics:assembleIntegrationApiRelease
       - persist_to_workspace:
           root: fl-application-android
           paths:
@@ -126,7 +121,7 @@ jobs:
     steps:
       - initialize_git_configuration
       - run:
-          no_output_timeout: 40m
+          no_output_timeout: 15m
           name: Assemble alpha
           command: |
             git clone git@github.com:freeletics/fl-application-ios.git
@@ -313,13 +308,13 @@ workflows:
   version: 2
 
   run_appium_tests_android:
-    # triggers:
-    #   - schedule:
-    #       cron: "0 5 * * 1-5" # 05:00 UTC = 07:00 CEST
-    #       filters:
-    #         branches:
-    #           only:
-    #             - master
+    triggers:
+      - schedule:
+          cron: "0 5 * * 1-5" # 05:00 UTC = 07:00 CEST
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - postman_test_data
       - assemble_freeletics_android_release
