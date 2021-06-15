@@ -352,7 +352,6 @@ workflows:
       - postman_delete_data:
           requires:
             - run_appium_tests_android
-      - postman_cancel_subscriptions
 
   run_appium_tests_ios:
     triggers:
