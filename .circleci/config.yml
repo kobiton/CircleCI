@@ -111,8 +111,7 @@ jobs:
             cd fl-application-android
             mkdir -p ~/.gradle
             cp config/ci/release/gradle.properties ~/.gradle/gradle.properties
-            ./gradlew --continue  -PincludeBuildProperties  assembleForEnvironment -Penvironment=integration -PbuildType=release
-#            ./gradlew app:freeletics:assembleIntegrationApiRelease
+            ./gradlew app:freeletics:assembleIntegrationApiRelease
       - persist_to_workspace:
           root: fl-application-android
           paths:
