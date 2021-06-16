@@ -200,32 +200,12 @@ jobs:
             git checkout master
             ./mvnw clean test -Dapp.os=ANDROID -Demails=${EMAILS} -Dis.kobiton=true -Dapp.and=$ID
       - run:
-          name: "Install Newman"
-          command: npm install -g newman
-      - run:
-          name: "Checkout Postman data creation repo"
-          command: git clone git@github.com:freeletics/postman-data-generator.git
-      - run:
-          name: "Get user data to delete subscriptions"
-          command: |
-            jq '.values | [ (.[1].value / ","), (.[2].value / ",") ] | transpose | map({email_registered: .[0], id: .[1]})' env.json > data.json
-      - run:
-          name: "Run collection"
-          command: |
-            cd postman-data-generator/appium_data
-            npx newman run cancel_subscription_from_real_store.postman_collection.json -d ../../data.json -e integration.postman_environment.json --export-environment env.json
-            echo "After run cancel_subscription_from_real_store"
-      - run:
           name: "Access folder for store artifacts"
           command: |
             ls
             cd target
       - store_artifacts:
           path: /target/surefire-reports
-
-
-
-          
 
   run_appium_tests_ios:
     working_directory: /home/circleci/repo
@@ -302,7 +282,6 @@ jobs:
       - image: sirech/newman-executor:13.6
     resource_class: small
     working_directory: /home/circleci/repo
-
     steps:
       - attach_workspace:
           at: .
@@ -325,45 +304,18 @@ jobs:
             cd postman-data-generator/appium_data
             npx newman run cleanup_users.json  -d ../../data.json -e integration.postman_environment.json --export-environment env.json
 
-  postman_cancel_subscriptions:
-    docker:
-      - image: sirech/newman-executor:13.6
-    resource_class: small
-    working_directory: /home/circleci/repo
-    steps:
-      - attach_workspace:
-          at: .
-      - add_ssh_key
-      - run:
-          name: "Adding Github ssh key."
-          command: |
-            # Copied from checkout step
-            echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
-      - run:
-          name: "Checkout Postman data creation repo"
-          command: git clone git@github.com:freeletics/postman-data-generator.git
-      - run:
-          name: "Get user data to be deleted"
-          command: |
-            jq '.values | [ (.[1].value / ","), (.[2].value / ",") ] | transpose | map({email_registered: .[0], id: .[1]})' env.json > data.json
-      - run:
-          name: "Run collection"
-          command: |
-            cd postman-data-generator/appium_data
-            npx newman run cancel_subscription_from_real_store.postman_collection.json -d ../../data.json -e integration.postman_environment.json --export-environment env.json
-
-
+ 
 workflows:
   version: 2
 
   run_appium_tests_android:
-    triggers:
-      - schedule:
-          cron: "0 5 * * 1-5" # 05:00 UTC = 07:00 CEST
-          filters:
-            branches:
-              only:
-                - master
+    # triggers:
+    #   - schedule:
+    #       cron: "0 5 * * 1-5" # 05:00 UTC = 07:00 CEST
+    #       filters:
+    #         branches:
+    #           only:
+    #             - master
     jobs:
       - postman_test_data
       - assemble_freeletics_android_release
@@ -376,13 +328,13 @@ workflows:
             - run_appium_tests_android
 
   run_appium_tests_ios:
-    # triggers:
-    #   - schedule:
-    #       cron: "0 4 * * 1-5" # 05:00 UTC = 07:00 CEST
-    #       filters:
-    #         branches:
-    #           only:
-    #             - master
+    triggers:
+      - schedule:
+          cron: "0 4 * * 1-5" # 05:00 UTC = 07:00 CEST
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - postman_test_data
       - assemble_freeletics_ios_alpha:
