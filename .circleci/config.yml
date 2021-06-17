@@ -68,6 +68,16 @@ commands:
             # Copied from checkout step
             echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
 
+  # command
+  add_ssh_key_for_fetching_private_swift_packages:
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - e7:60:41:eb:29:ae:f0:de:cc:02:15:81:de:29:41:c5
+      - run:
+          name: Add 'github.com' to known hosts for SSH access
+          command: for ip in $(dig @8.8.8.8 github.com +short); do ssh-keyscan github.com,$ip; ssh-keyscan $ip; done 2>/dev/null >> ~/.ssh/known_hosts || true
+
   prepare_standalone_job:
     steps:
       - add_ssh_keys: # Add ssh key used for private pods
@@ -120,6 +130,7 @@ jobs:
     executor: macos
     steps:
       - initialize_git_configuration
+      - add_ssh_key_for_fetching_private_swift_packages
       - run:
           no_output_timeout: 15m
           name: Assemble alpha
