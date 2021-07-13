@@ -265,13 +265,13 @@ jobs:
 
             echo "Creating an upload on kobiton"
 
-            export ID=$(curl -X POST https://api.kobiton.com/v1/apps \
+            curl -X POST https://api.kobiton.com/v1/apps \
               -H "Authorization: Basic ${KOBITON_AUTH}" \
               -H 'Content-Type: application/json' \
               -d "{\"filename\" :  \"upload_new.ipa \", \"appPath\" :\"$appPath\"}" |
               jq -r .appId
-               )
-              echo $ID
+
+            export ID=$(curl -X GET https://api.kobiton.com/v1/apps -H "Authorization: Basic ${KOBITON_AUTH}"  -H 'Accept: application/json' | jq -c '.apps[] | select (.os =="IOS") | .id')
 
             apt-get -y update && apt-get -y install jq
             $( jq -r '.values[1].value as $k | "export EMAILS=\($k)"' env.json)
